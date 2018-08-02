@@ -10,8 +10,8 @@ class SerachConcertDetailService {
 
 data class Result (val CODE : String, val MESSAGE : String)
 
-data class Row (val CULTCODE : Float,
-                val SUBJCODE : Float,
+data class Row (val CULTCODE : String,
+                val SUBJCODE : String,
                 val CODENAME : String,
                 val TITLE : String,
                 val STARTDATE : String,
@@ -27,9 +27,9 @@ data class Row (val CULTCODE : Float,
                 val INQUIRY : String,
                 val SUPPORT : String,
                 val ETC_DESC : String,
-                val AGELIMIT : Int,
-                val IS_FREE : Boolean,
-                val TICKET : Int,
+                val AGELIMIT : String,
+                val IS_FREE : String,
+                val TICKET : String,
                 val PROGRAM : String,
                 val PLAYER : String,
                 val CONTENTS : String,

@@ -13,6 +13,7 @@ class ListActivity : AppCompatActivity() {
         setContentView(R.layout.activity_list)
 
         CultureApiHelper.connect(applicationContext, 1, 1)
+        CultureApiHelper.connect(applicationContext, 1, 3)
 
     }
 }
