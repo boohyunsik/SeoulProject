@@ -14,7 +14,7 @@ object CultureApiHelper : ApiHelper() {
         Log.d(TAG, "init()")
     }
 
-    override fun connect(context : Context, start : Int, end : Int) {
+    override fun getData(context : Context, start : Int, end : Int) : CultureData{
         Log.d(TAG, "connect()")
         val builder: StringBuilder = StringBuilder().append("http://openAPI.seoul.go.kr:8088/")
                 .append(context.resources.getString(R.string.key))
@@ -23,8 +23,7 @@ object CultureApiHelper : ApiHelper() {
         val url = builder.toString()
         val response : String = HttpHelper().execute(url).get()
         Log.d(TAG, response)
-        JsonHelper.parseCultureData(response)
-
+        return JsonHelper.parseCultureData(response)
     }
 
 }

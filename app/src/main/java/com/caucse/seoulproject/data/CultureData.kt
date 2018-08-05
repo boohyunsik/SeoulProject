@@ -1,6 +1,6 @@
 package com.caucse.seoulproject.data
 
-data class CultureData(val SearchConcertDetailService: SerachConcertDetailService)
+data class CultureData(val SearchConcertDetailService: SerachConcertDetailService) : DataFormat()
 
 class SerachConcertDetailService {
     var list_total_count: Int? = null
