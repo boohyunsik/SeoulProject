@@ -6,7 +6,10 @@ import com.caucse.seoulproject.helper.CultureApiHelper
 
 object ApiController {
 
-    fun getCultureData(context : Context, start : Int, end : Int) : CultureData {
-        return CultureApiHelper.getData(context, 1, 3)
+    val cultureApiHelper : CultureApiHelper = CultureApiHelper()
+    var context : Context? = null
+
+    fun getCultureData(start : Int, end : Int) : CultureData {
+        return cultureApiHelper.getData(context, 1, 3)
     }
 }
