@@ -13,10 +13,10 @@ object ApiController {
     var context : Context? = null
 
     fun getCultureData(start : Int, end : Int) : CultureData {
-        return cultureApiHelper.getData(context, 1, 3)
+        return cultureApiHelper.getData(context, start, end)
     }
 
     fun getParkingData(start : Int, end : Int) : ParkingData {
-        return parkingApiHelper.getData(context, 1, 3)
+        return parkingApiHelper.getData(context, start, end)
     }
 }
