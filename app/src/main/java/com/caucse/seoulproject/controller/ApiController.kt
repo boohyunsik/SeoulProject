@@ -7,10 +7,9 @@ import com.caucse.seoulproject.helper.CultureApiHelper
 import com.caucse.seoulproject.helper.ParkingApiHelper
 
 object ApiController {
-
     val cultureApiHelper : CultureApiHelper = CultureApiHelper()
     val parkingApiHelper : ParkingApiHelper = ParkingApiHelper()
-    var context : Context? = null
+    lateinit var context : Context
 
     fun getCultureData(start : Int, end : Int) : CultureData {
         return cultureApiHelper.getData(context, start, end)

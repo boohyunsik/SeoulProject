@@ -1,4 +1,11 @@
 <resources>
     <string name="app_name">SeoulProject</string>
     <string name="key">667a614a766268733132356b47506c7a</string>
+    <string name="title_activity_list">ListActivity</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
 </resources>
