@@ -5,12 +5,12 @@ data class CultureData(val SearchConcertDetailService: SerachConcertDetailServic
 class SerachConcertDetailService {
     var list_total_count: Int? = null
     var RESULT: Result? = null
-    var row: ArrayList<Row>? = null
+    lateinit var row: ArrayList<CultureRow>
 }
 
 data class Result (val CODE : String, val MESSAGE : String)
 
-data class Row (val CULTCODE : String,
+data class CultureRow (val CULTCODE : String,
                 val SUBJCODE : String,
                 val CODENAME : String,
                 val TITLE : String,

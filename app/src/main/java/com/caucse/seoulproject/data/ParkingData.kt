@@ -5,10 +5,10 @@ data class ParkingData(val GetParkInfo : GetParkInfo): DataFormat()
 class GetParkInfo {
     var list_total_count: Int? = null
     var RESULT: Result? = null
-    var row : ArrayList<parking_row>? = null
+    lateinit var row : ArrayList<ParkingRow>
 }
 
-data class parking_row (
+data class ParkingRow (
         val PARKING_CODE : String? = null,
         val PARKING_NAME : String? = null,
         val ADDR : String? = null,
