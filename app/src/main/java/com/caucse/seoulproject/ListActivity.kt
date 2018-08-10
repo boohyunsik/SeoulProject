@@ -33,9 +33,11 @@ import java.lang.Exception
 class ListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
     val TAG = "ListActivity"
+    private var isLoading = false
+    private val visibleThreshold = 1
+
     private lateinit var recyclerView : RecyclerView
     private lateinit var cultureData : CultureData
-    private lateinit var adapter : Adapter
     private lateinit var linearLayoutManager : LinearLayoutManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -69,7 +71,13 @@ class ListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         recyclerView = this.listview
         linearLayoutManager = LinearLayoutManager(this)
         recyclerView.layoutManager= linearLayoutManager
-        recyclerView.adapter = Adapter(applicationContext)
+        val adapter : Adapter = Adapter(applicationContext, recyclerView)
+        adapter.onLoadMoreListener = object : OnLoadMoreListener {
+            override fun onLoadMore() {
+                Log.d(TAG, "load!!")
+            }
+        }
+        recyclerView.adapter = adapter
 
     }
 
@@ -110,19 +118,31 @@ class ListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
 
-    inner class Adapter(context : Context) : RecyclerView.Adapter<RowHolder>() {
+    inner class Adapter(context : Context, recyclerView: RecyclerView) : RecyclerView.Adapter<RowHolder>() {
 
         private val TAG = "ListAdapter"
         private val inflater : LayoutInflater = LayoutInflater.from(context)
+        lateinit var onLoadMoreListener: OnLoadMoreListener
 
+        init {
+            recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+                override fun onScrollStateChanged(recyclerView: RecyclerView, newState : Int) {
+                    if (!recyclerView.canScrollVertically(1)) {
+                        Log.d(TAG, "Need data load")
+                    }
+                }
+            })
+        }
+
+        open fun setListener(listener : OnLoadMoreListener) {
+            this.onLoadMoreListener = listener
+        }
 
         override fun getItemCount() : Int {
-            Log.d(TAG, "getItemCount() " + cultureData.SearchConcertDetailService.row.size)
             return cultureData.SearchConcertDetailService.row.size
         }
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RowHolder {
-            Log.d(TAG, "onCreateViewHolder()")
             return RowHolder(inflater.inflate(R.layout.list_item, parent, false))
         }
 

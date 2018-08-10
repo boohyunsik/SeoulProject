@@ -7,14 +7,16 @@
     <ImageView
         android:id="@+id/title_image"
         android:layout_width="100dp"
-        android:layout_height="100dp" />
+        android:layout_height="100dp"
+        android:paddingRight="5dp"/>
 
     <TextView
         android:id="@+id/title_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="#000000"
-        android:textSize="12dp"
+        android:textSize="16dp"
+        android:maxLines="1"
         android:text="Example"/>
 
 </LinearLayout>
