@@ -15,7 +15,8 @@ class IntroActivity : AppCompatActivity() {
         val handler = Handler()
         handler.postDelayed(Runnable {
             //startActivity(Intent(this, LoginActivity::class.java))
-            startActivity(Intent(this, ListActivity::class.java))
+            startActivity(Intent(this, LoginActivity::class.java))
+            finish()
         }, 2000)
     }
 

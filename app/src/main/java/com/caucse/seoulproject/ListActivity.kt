@@ -13,6 +13,7 @@ import android.support.v7.widget.RecyclerView
 import android.telecom.Call
 import android.util.Log
 import android.view.*
+import android.view.accessibility.AccessibilityEvent
 import android.widget.BaseAdapter
 import android.widget.ImageView
 import android.widget.ListView
@@ -24,6 +25,7 @@ import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_list.*
 import kotlinx.android.synthetic.main.app_bar_list.*
 import kotlinx.android.synthetic.main.list_item.view.*
+import kotlinx.android.synthetic.main.nav_header_list.view.*
 import kotlinx.coroutines.experimental.*
 import kotlinx.coroutines.experimental.android.UI
 import java.lang.Exception
@@ -53,6 +55,16 @@ class ListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         super.onResume()
         Log.d(TAG, "onResume()")
         cultureData = ApiController.getCultureData(1,10)
+
+        // TODO : 이런식으로 intent에다가 key로 묶어서 로그인 정보 전달
+        val userName = intent.extras.getString("userName")
+        val userEmail = intent.extras.getString("userEmail")
+
+        // Settings navigation header view
+        val navigationView = this.nav_view
+        val headerView = navigationView.getHeaderView(0)
+        headerView.nav_user_name.setText(userName)
+        headerView.nav_user_email.setText(userEmail)
 
         recyclerView = this.listview
         linearLayoutManager = LinearLayoutManager(this)
@@ -97,6 +109,7 @@ class ListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         return true
     }
 
+
     inner class Adapter(context : Context) : RecyclerView.Adapter<RowHolder>() {
 
         private val TAG = "ListAdapter"
@@ -114,24 +127,18 @@ class ListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
 
         override fun onBindViewHolder(holder: RowHolder, position: Int) {
-            val url : String = cultureData.SearchConcertDetailService.row.get(position).MAIN_IMG.toLowerCase()
+
+            val data : CultureRow = cultureData.SearchConcertDetailService.row.get(position)
+            val url : String = data.MAIN_IMG.toLowerCase()
+            val title : String = data.TITLE
             Log.d(TAG, "onBindViewHolder() -> $url")
             Picasso.get().load(url).into(holder.titleImageView, callback)
+            holder.titleTitleView.setText(title)
         }
 
         override fun getItemId(position: Int): Long {
             return position.toLong()
         }
-
-//        override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
-//
-//            val rowView = inflater.inflate(R.layout.list_item, parent, false)
-//            val imageView : ImageView = rowView.findViewById(R.id.title_image)
-//            val url : String = cultureData.SearchConcertDetailService.row.get(position).MAIN_IMG.toLowerCase()
-//            Log.d(TAG, "Download => ${url}")
-//            Picasso.get().load(url).into(imageView, callback)
-//            return rowView
-//        }
 
         val callback: Callback = object: Callback {
             override fun onSuccess() {
@@ -145,5 +152,6 @@ class ListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
     class RowHolder (row: View) : RecyclerView.ViewHolder(row) {
         var titleImageView = row.title_image
+        var titleTitleView = row.title_title
     }
 }
