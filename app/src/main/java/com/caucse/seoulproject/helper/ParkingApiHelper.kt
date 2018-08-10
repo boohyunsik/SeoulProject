@@ -21,7 +21,7 @@ class ParkingApiHelper : ApiHelper() {
                 .append("/json/GetParkInfo/")
                 .append("${start}/${end}/")
         val url = builder.toString()
-        val response : String = HttpHelper().execute(url).get()
+        val response : String? = HttpHelper().execute(url).get()
         Log.d(TAG, response)
         return JsonHelper.parseParkingData(response)
     }

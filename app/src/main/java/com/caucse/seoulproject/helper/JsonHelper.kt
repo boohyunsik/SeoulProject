@@ -9,14 +9,14 @@ import com.google.gson.Gson
 object JsonHelper {
     val TAG = "JsonHelper"
     val gson = Gson()
-    fun parseCultureData(str : String) : CultureData {
+    fun parseCultureData(str : String?) : CultureData {
         Log.d(TAG, "Original string = " + str)
         var cultureData : CultureData = gson.fromJson(str, CultureData::class.java)
         Log.d(TAG, "Parse result = ${cultureData.SearchConcertDetailService.row.toString()}")
         return cultureData
     }
 
-    fun parseParkingData(str : String) : ParkingData {
+    fun parseParkingData(str : String?) : ParkingData {
         Log.d(TAG, "Original string = " + str)
         var parkingData : ParkingData = gson.fromJson(str, ParkingData::class.java)
         Log.d(TAG, "Parse result = ${parkingData.GetParkInfo.row.toString()}")

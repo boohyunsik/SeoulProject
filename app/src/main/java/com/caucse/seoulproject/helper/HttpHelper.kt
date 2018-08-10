@@ -5,7 +5,7 @@ import android.util.Log
 import okhttp3.*
 import java.util.concurrent.TimeUnit
 
-class HttpHelper : AsyncTask<String, Unit, String>() {
+class HttpHelper : AsyncTask<String, Unit, String?>() {
 
     private val TAG = "HttpHelper"
     private val TIMEOUT = 10L

@@ -5,9 +5,10 @@ import android.util.Log
 import com.caucse.seoulproject.R
 import com.caucse.seoulproject.data.CultureData
 import com.google.gson.Gson
+import kotlinx.coroutines.experimental.async
 import okhttp3.*
 
-class CultureApiHelper : ApiHelper() {
+open class CultureApiHelper : ApiHelper() {
     private val TAG = "CultureApiHelper"
 
     init {
@@ -21,9 +22,8 @@ class CultureApiHelper : ApiHelper() {
                 .append("/json/SearchConcertDetailService/")
                 .append("${start}/${end}/")
         val url = builder.toString()
-        val response : String = HttpHelper().execute(url).get()
+        var response : String? = HttpHelper().execute(url).get()
         Log.d(TAG, response)
         return JsonHelper.parseCultureData(response)
     }
-
 }
