@@ -78,7 +78,6 @@ class ListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             }
         }
         recyclerView.adapter = adapter
-
     }
 
     override fun onBackPressed() {
