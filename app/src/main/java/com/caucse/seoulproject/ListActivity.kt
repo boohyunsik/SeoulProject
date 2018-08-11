@@ -29,7 +29,7 @@ import kotlinx.android.synthetic.main.nav_header_list.view.*
 import kotlinx.coroutines.experimental.*
 import kotlinx.coroutines.experimental.android.UI
 import java.lang.Exception
-
+// Createed by hyunsik boo.
 class ListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
     val TAG = "ListActivity"
@@ -78,7 +78,6 @@ class ListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             }
         }
         recyclerView.adapter = adapter
-
     }
 
     override fun onBackPressed() {
