@@ -3,6 +3,7 @@ package com.caucse.seoulproject.controller
 import android.content.Context
 import android.graphics.Bitmap
 import com.caucse.seoulproject.data.CultureData
+import com.caucse.seoulproject.data.CultureRow
 import com.caucse.seoulproject.data.ParkingData
 import com.caucse.seoulproject.helper.CultureApiHelper
 import com.caucse.seoulproject.helper.ImageDownloadHelper
@@ -14,8 +15,8 @@ object ApiController {
     val imageDownloadHelper : ImageDownloadHelper = ImageDownloadHelper()
     lateinit var context : Context
 
-    fun getCultureData(start : Int, end : Int) : CultureData {
-        return cultureApiHelper.getData(context, start, end)
+    fun getCultureData(start : Int, end : Int) : ArrayList<CultureRow> {
+        return cultureApiHelper.getData(context, start, end).SearchConcertDetailService.row
     }
 
     fun getParkingData(start : Int, end : Int) : ParkingData {

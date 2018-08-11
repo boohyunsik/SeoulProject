@@ -36,8 +36,10 @@ class ListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private var isLoading = false
     private val visibleThreshold = 1
 
+    private var lastIndex = 10
+
     private lateinit var recyclerView : RecyclerView
-    private lateinit var cultureData : CultureData
+    private lateinit var cultureData : ArrayList<CultureRow>
     private lateinit var linearLayoutManager : LinearLayoutManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -56,7 +58,8 @@ class ListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     override fun onResume() {
         super.onResume()
         Log.d(TAG, "onResume()")
-        cultureData = ApiController.getCultureData(1,10)
+        lastIndex = 10
+        cultureData = ApiController.getCultureData(1,lastIndex)
 
         // TODO : 이런식으로 intent에다가 key로 묶어서 로그인 정보 전달
         val userName = intent.extras.getString("userName")
@@ -72,11 +75,6 @@ class ListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         linearLayoutManager = LinearLayoutManager(this)
         recyclerView.layoutManager= linearLayoutManager
         val adapter : Adapter = Adapter(applicationContext, recyclerView)
-        adapter.onLoadMoreListener = object : OnLoadMoreListener {
-            override fun onLoadMore() {
-                Log.d(TAG, "load!!")
-            }
-        }
         recyclerView.adapter = adapter
     }
 
@@ -89,15 +87,11 @@ class ListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.list, menu)
         return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         when (item.itemId) {
             R.id.action_settings -> return true
             else -> return super.onOptionsItemSelected(item)
@@ -116,18 +110,25 @@ class ListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         return true
     }
 
-
     inner class Adapter(context : Context, recyclerView: RecyclerView) : RecyclerView.Adapter<RowHolder>() {
 
         private val TAG = "ListAdapter"
         private val inflater : LayoutInflater = LayoutInflater.from(context)
         lateinit var onLoadMoreListener: OnLoadMoreListener
+        lateinit var URL : String
 
         init {
             recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
                 override fun onScrollStateChanged(recyclerView: RecyclerView, newState : Int) {
-                    if (!recyclerView.canScrollVertically(1)) {
-                        Log.d(TAG, "Need data load")
+                    if (newState == RecyclerView.SCROLL_STATE_IDLE && !recyclerView.canScrollVertically(1)) {
+                        async {
+                            Log.d(TAG, "need load data")
+                            val additionalData : ArrayList<CultureRow> = ApiController.getCultureData(lastIndex+1, lastIndex+3)
+                            //Log.d(TAG, "request data : ${additionalData.get(0).TITLE} ~ ${additionalData.get(2).TITLE}")
+                            lastIndex += 3
+                            cultureData.addAll(additionalData)
+                            notifyDataSetChanged()
+                        }
                     }
                 }
             })
@@ -138,7 +139,7 @@ class ListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
 
         override fun getItemCount() : Int {
-            return cultureData.SearchConcertDetailService.row.size
+            return cultureData.size
         }
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RowHolder {
@@ -147,12 +148,17 @@ class ListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         override fun onBindViewHolder(holder: RowHolder, position: Int) {
 
-            val data : CultureRow = cultureData.SearchConcertDetailService.row.get(position)
+            val data : CultureRow = cultureData.get(position)
             val url : String = data.MAIN_IMG.toLowerCase()
             val title : String = data.TITLE
             Log.d(TAG, "onBindViewHolder() -> $url")
-            Picasso.get().load(url).into(holder.titleImageView, callback)
-            holder.titleTitleView.setText(title)
+            URL = url
+            try {
+                Picasso.get().load(url).into(holder.titleImageView, callback)
+                holder.titleTitleView.setText(title)
+            } catch (e : Exception) {
+                Log.e(TAG, e.message)
+            }
         }
 
         override fun getItemId(position: Int): Long {
@@ -161,11 +167,11 @@ class ListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         val callback: Callback = object: Callback {
             override fun onSuccess() {
-                Log.d(TAG, "picasso onSuccess()")
+                //Log.d(TAG, "picasso onSuccess()")
             }
 
             override fun onError(e: Exception?) {
-                Log.d(TAG, "picasso onFailed() -> ${e?.message}")
+                Log.d(TAG, "picasso onFailed() -> ${URL},  ${e?.message}")
             }
         }
     }
