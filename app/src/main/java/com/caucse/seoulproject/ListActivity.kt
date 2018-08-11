@@ -123,9 +123,8 @@ class ListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     if (newState == RecyclerView.SCROLL_STATE_IDLE && !recyclerView.canScrollVertically(1)) {
                         async {
                             Log.d(TAG, "need load data")
-                            val additionalData : ArrayList<CultureRow> = ApiController.getCultureData(lastIndex+1, lastIndex+3)
-                            //Log.d(TAG, "request data : ${additionalData.get(0).TITLE} ~ ${additionalData.get(2).TITLE}")
-                            lastIndex += 3
+                            val additionalData : ArrayList<CultureRow> =
+                                    ApiController.getCultureData(cultureData.size + 1, cultureData.size + 3)
                             cultureData.addAll(additionalData)
                             notifyDataSetChanged()
                         }
