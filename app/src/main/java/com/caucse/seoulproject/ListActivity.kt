@@ -114,7 +114,6 @@ class ListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         private val TAG = "ListAdapter"
         private val inflater : LayoutInflater = LayoutInflater.from(context)
-        lateinit var onLoadMoreListener: OnLoadMoreListener
         lateinit var URL : String
 
         init {
@@ -131,10 +130,6 @@ class ListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     }
                 }
             })
-        }
-
-        open fun setListener(listener : OnLoadMoreListener) {
-            this.onLoadMoreListener = listener
         }
 
         override fun getItemCount() : Int {
