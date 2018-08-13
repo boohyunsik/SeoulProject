@@ -146,6 +146,7 @@ class ListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             val url : String = data.MAIN_IMG.toLowerCase()
             val title : String = data.TITLE
             Log.d(TAG, "onBindViewHolder() -> $url")
+            URL = url
             try {
                 Picasso.get().load(url).into(holder.titleImageView, callback)
                 holder.titleTitleView.setText(title)
