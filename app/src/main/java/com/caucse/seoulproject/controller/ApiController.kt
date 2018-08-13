@@ -4,15 +4,17 @@ import android.content.Context
 import android.graphics.Bitmap
 import com.caucse.seoulproject.data.CultureData
 import com.caucse.seoulproject.data.CultureRow
+import com.caucse.seoulproject.data.HotelData
 import com.caucse.seoulproject.data.ParkingData
 import com.caucse.seoulproject.helper.CultureApiHelper
+import com.caucse.seoulproject.helper.HotelApiHelper
 import com.caucse.seoulproject.helper.ImageDownloadHelper
 import com.caucse.seoulproject.helper.ParkingApiHelper
 
 object ApiController {
     val cultureApiHelper : CultureApiHelper = CultureApiHelper()
     val parkingApiHelper : ParkingApiHelper = ParkingApiHelper()
-    val imageDownloadHelper : ImageDownloadHelper = ImageDownloadHelper()
+    val hotelApiHelper : HotelApiHelper = HotelApiHelper()
     lateinit var context : Context
 
     fun getCultureData(start : Int, end : Int) : ArrayList<CultureRow> {
@@ -23,7 +25,7 @@ object ApiController {
         return parkingApiHelper.getData(context, start, end)
     }
 
-    fun getBitmap(url : String) : Bitmap {
-        return imageDownloadHelper.download(url)
+    fun getHotelData(start : Int, end : Int) : HotelData {
+        return hotelApiHelper.getData(context, start, end)
     }
 }
