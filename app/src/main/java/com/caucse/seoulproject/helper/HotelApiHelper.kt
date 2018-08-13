@@ -5,14 +5,14 @@ import android.util.Log
 import com.caucse.seoulproject.R
 import com.caucse.seoulproject.data.HotelData
 
-class HotelApiHelper : ApiHelper() {
+class HotelApiHelper {
     private val TAG = "HotelApiHelper"
 
     init {
         Log.d(TAG, "init()")
     }
 
-    override fun getData(context : Context?, start : Int, end : Int) : HotelData {
+    fun getData(context : Context?, start : Int, end : Int) : HotelData {
         Log.d(TAG, "connect()")
         val builder: StringBuilder = StringBuilder().append("http://openapi.seoul.go.kr:8088")
                 .append(context?.resources?.getString(R.string.key))

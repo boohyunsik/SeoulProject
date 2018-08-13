@@ -1,58 +1,56 @@
 package com.caucse.seoulproject
 
 import android.content.Context
-import android.graphics.Bitmap
 import android.os.Bundle
-import android.support.design.widget.Snackbar
-import android.support.design.widget.NavigationView
-import android.support.v4.view.GravityCompat
-import android.support.v7.app.ActionBarDrawerToggle
+import android.support.design.widget.BottomNavigationView
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.telecom.Call
 import android.util.Log
-import android.view.*
-import android.view.accessibility.AccessibilityEvent
-import android.widget.BaseAdapter
-import android.widget.ImageView
-import android.widget.ListView
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import com.caucse.seoulproject.controller.ApiController
-import com.caucse.seoulproject.data.CultureData
 import com.caucse.seoulproject.data.CultureRow
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.activity_list.*
-import kotlinx.android.synthetic.main.app_bar_list.*
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.list_item.view.*
-import kotlinx.android.synthetic.main.nav_header_list.view.*
-import kotlinx.coroutines.experimental.*
-import kotlinx.coroutines.experimental.android.UI
+import kotlinx.coroutines.experimental.async
 import java.lang.Exception
-// Createed by hyunsik boo.
-class ListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
-    val TAG = "ListActivity"
-    private var isLoading = false
-    private val visibleThreshold = 1
+class MainActivity : AppCompatActivity() {
 
-    private var lastIndex = 10
+    val TAG = "MainActivity"
 
+    private var lastIndex = 0
     private lateinit var recyclerView : RecyclerView
     private lateinit var cultureData : ArrayList<CultureRow>
     private lateinit var linearLayoutManager : LinearLayoutManager
 
+    private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
+        when (item.itemId) {
+            R.id.navigation_home -> {
+                //message.setText(R.string.title_home)
+                return@OnNavigationItemSelectedListener true
+            }
+            R.id.navigation_dashboard -> {
+                //message.setText(R.string.title_dashboard)
+                return@OnNavigationItemSelectedListener true
+            }
+            R.id.navigation_notifications -> {
+                //message.setText(R.string.title_notifications)
+                return@OnNavigationItemSelectedListener true
+            }
+        }
+        false
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_list)
-        setSupportActionBar(toolbar)
+        setContentView(R.layout.activity_main)
 
-        val toggle = ActionBarDrawerToggle(
-                this, drawer_layout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
-        drawer_layout.addDrawerListener(toggle)
-        toggle.syncState()
-
-        nav_view.setNavigationItemSelectedListener(this)
+        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
     }
 
     override fun onResume() {
@@ -61,53 +59,11 @@ class ListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         lastIndex = 10
         cultureData = ApiController.getCultureData(1,lastIndex)
 
-        // TODO : 이런식으로 intent에다가 key로 묶어서 로그인 정보 전달
-        val userName = intent.extras.getString("userName")
-        val userEmail = intent.extras.getString("userEmail")
-
-        // Settings navigation header view
-        val navigationView = this.nav_view
-        val headerView = navigationView.getHeaderView(0)
-        headerView.nav_user_name.setText(userName)
-        headerView.nav_user_email.setText(userEmail)
-
         recyclerView = this.listview
         linearLayoutManager = LinearLayoutManager(this)
         recyclerView.layoutManager= linearLayoutManager
         val adapter : Adapter = Adapter(applicationContext, recyclerView)
         recyclerView.adapter = adapter
-    }
-
-    override fun onBackPressed() {
-        if (drawer_layout.isDrawerOpen(GravityCompat.START)) {
-            drawer_layout.closeDrawer(GravityCompat.START)
-        } else {
-            super.onBackPressed()
-        }
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.list, menu)
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.action_settings -> return true
-            else -> return super.onOptionsItemSelected(item)
-        }
-    }
-
-    override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        // Handle navigation view item clicks here.
-        when (item.itemId) {
-            R.id.nav_camera -> {
-                // Handle the camera action
-            }
-        }
-
-        drawer_layout.closeDrawer(GravityCompat.START)
-        return true
     }
 
     inner class Adapter(context : Context, recyclerView: RecyclerView) : RecyclerView.Adapter<RowHolder>() {

@@ -7,14 +7,14 @@ import com.caucse.seoulproject.data.CultureData
 import com.caucse.seoulproject.data.DataFormat
 import com.caucse.seoulproject.data.ParkingData
 
-class ParkingApiHelper : ApiHelper() {
+class ParkingApiHelper {
     private val TAG = "ParkingApiHelper"
 
     init {
         Log.d(TAG, "init()")
     }
 
-    override fun getData(context: Context?, start: Int, end: Int) : ParkingData {
+    fun getData(context: Context?, start: Int, end: Int) : ParkingData {
         Log.d(TAG, "connect()")
         val builder : StringBuilder = StringBuilder().append("http://openapi.seoul.go.kr:8088/")
                 .append(context?.resources?.getString(R.string.key))
