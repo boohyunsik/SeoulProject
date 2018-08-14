@@ -58,10 +58,7 @@ class MainActivity : AppCompatActivity() {
                 return@OnNavigationItemSelectedListener true
             }
         }
-
         false
-
-
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -81,22 +78,16 @@ class MainActivity : AppCompatActivity() {
         favoriteFragment = FavoriteFragment.newInstance()
         myInfoFragment = MyInfoFragment.newInstance()
 
+        setFragmentManager()
+    }
+
+    private fun setFragmentManager() {
         fragmentManager.beginTransaction().add(R.id.frame_layout, myInfoFragment, "3").hide(myInfoFragment).commit()
         fragmentManager.beginTransaction().add(R.id.frame_layout, favoriteFragment, "2").hide(favoriteFragment).commit()
         fragmentManager.beginTransaction().add(R.id.frame_layout, listfragment, "1").commit()
-
         fragmentManager.beginTransaction().setCustomAnimations(R.anim.abc_fade_in, R.anim.abc_fade_out)
 
         active = listfragment
-    }
-
-    private fun loadFragByTag(tag : String) {
-        var frag = fragmentManager.findFragmentByTag(tag)
-        if (frag == null) {
-            when (tag) {
-
-            }
-        }
     }
 }
 
