@@ -22,11 +22,6 @@ import kotlinx.android.synthetic.main.list_item.view.*
 import kotlinx.coroutines.experimental.async
 import java.lang.Exception
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
 class CultureListFragment : Fragment() {
 
     private var listener: OnFragmentInteractionListener? = null
@@ -47,6 +42,8 @@ class CultureListFragment : Fragment() {
         cultureData = ApiController.getCultureData(1,lastIndex)
 
         recyclerView = view.listview
+        recyclerView.setItemViewCacheSize(20)
+        recyclerView.isDrawingCacheEnabled = true
         linearLayoutManager = LinearLayoutManager(activity?.applicationContext)
         recyclerView.layoutManager= linearLayoutManager
         val adapter : Adapter = Adapter(activity?.applicationContext!!, recyclerView)
@@ -91,6 +88,7 @@ class CultureListFragment : Fragment() {
         lateinit var URL : String
 
         init {
+            //Picasso.get().setIndicatorsEnabled(true)
             recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
                 override fun onScrollStateChanged(recyclerView: RecyclerView, newState : Int) {
                     if (newState == RecyclerView.SCROLL_STATE_IDLE && !recyclerView.canScrollVertically(1)) {
@@ -122,7 +120,10 @@ class CultureListFragment : Fragment() {
             Log.d(TAG, "onBindViewHolder() -> $url")
             URL = url
             try {
-                Picasso.get().load(url).into(holder.titleImageView, callback)
+                Picasso.get()
+                        .load(url)
+                        .fit()
+                        .into(holder.titleImageView, callback)
                 holder.titleTitleView.setText(title)
             } catch (e : Exception) {
                 Log.e(TAG, e.message)
