@@ -14,7 +14,7 @@ class InfoFragment : Fragment() {
 
     private var listener: OnFragmentInteractionListener? = null
 
-    private lateinit var data : CultureRow
+    private lateinit var cultureData : CultureRow
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,7 +51,7 @@ class InfoFragment : Fragment() {
     companion object {
         @JvmStatic
         fun newInstance(data : CultureRow) = InfoFragment().apply {
-            this.data = data
+            this.cultureData = data
         }
     }
 }
