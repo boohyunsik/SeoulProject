@@ -140,7 +140,7 @@ class CultureListFragment : Fragment() {
                 Log.d(TAG, "set clickListener()")
                 fm.beginTransaction()
                         .addToBackStack("parent")
-                        .replace(R.id.frame_layout, InfoFragment.newInstance())
+                        .replace(R.id.frame_layout, InfoFragment.newInstance(data))
                         .commit()
             }
         }
