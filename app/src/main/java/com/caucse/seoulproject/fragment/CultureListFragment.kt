@@ -4,6 +4,7 @@ import android.content.Context
 import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v4.app.FragmentManager
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.util.Log
@@ -19,6 +20,7 @@ import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_list.view.*
 import kotlinx.android.synthetic.main.list_item.view.*
+import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.async
 import java.lang.Exception
 
@@ -29,6 +31,9 @@ class CultureListFragment : Fragment() {
     private lateinit var cultureData : ArrayList<CultureRow>
     private lateinit var linearLayoutManager : LinearLayoutManager
     private var lastIndex = 0
+    private val fragment : Fragment = this
+
+    private lateinit var fm: FragmentManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,10 +53,10 @@ class CultureListFragment : Fragment() {
         recyclerView.layoutManager= linearLayoutManager
         val adapter : Adapter = Adapter(activity?.applicationContext!!, recyclerView)
         recyclerView.adapter = adapter
+
         return view
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
     fun onButtonPressed(uri: Uri) {
         listener?.onFragmentInteraction(uri)
     }
@@ -76,10 +81,10 @@ class CultureListFragment : Fragment() {
     }
 
     companion object {
-        // TODO: Rename and change types and number of parameters
         @JvmStatic
-        val TAG : String = CultureListFragment::class.java.simpleName
-        fun newInstance() = CultureListFragment()
+        fun newInstance(fm : FragmentManager) = CultureListFragment().apply {
+            this.fm = fm
+        }
     }
     inner class Adapter(context : Context, recyclerView: RecyclerView) : RecyclerView.Adapter<RowHolder>() {
 
@@ -91,12 +96,14 @@ class CultureListFragment : Fragment() {
             //Picasso.get().setIndicatorsEnabled(true)
             recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
                 override fun onScrollStateChanged(recyclerView: RecyclerView, newState : Int) {
-                    if (newState == RecyclerView.SCROLL_STATE_IDLE && !recyclerView.canScrollVertically(1)) {
-                        async {
-                            Log.d(TAG, "need load data")
-                            val additionalData : ArrayList<CultureRow> =
-                                    ApiController.getCultureData(cultureData.size + 1, cultureData.size + 3)
-                            cultureData.addAll(additionalData)
+                    async(UI) {
+                        if (newState == RecyclerView.SCROLL_STATE_IDLE && !recyclerView.canScrollVertically(1)) {
+                            val job = async {
+                                val additionalData : ArrayList<CultureRow> =
+                                        ApiController.getCultureData(cultureData.size + 1, cultureData.size + 3)
+                                cultureData.addAll(additionalData)
+                            }
+                            job.await()
                             notifyDataSetChanged()
                         }
                     }
@@ -128,6 +135,14 @@ class CultureListFragment : Fragment() {
             } catch (e : Exception) {
                 Log.e(TAG, e.message)
             }
+
+            holder.cardView.setOnClickListener {
+                Log.d(TAG, "set clickListener()")
+                fm.beginTransaction()
+                        .addToBackStack("parent")
+                        .replace(R.id.frame_layout, InfoFragment.newInstance())
+                        .commit()
+            }
         }
 
         override fun getItemId(position: Int): Long {
@@ -144,7 +159,8 @@ class CultureListFragment : Fragment() {
             }
         }
     }
-    class RowHolder (row: View) : RecyclerView.ViewHolder(row) {
+    inner class RowHolder (row: View) : RecyclerView.ViewHolder(row) {
+        var cardView = row.card_view
         var titleImageView = row.title_image
         var titleTitleView = row.title_title
     }

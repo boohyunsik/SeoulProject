@@ -57,7 +57,7 @@ class MainActivity : AppCompatActivity() {
         frameLayout = frame_layout
         fragmentManager = supportFragmentManager
 
-        listfragment = CultureListFragment.newInstance()
+        listfragment = CultureListFragment.newInstance(fragmentManager)
         favoriteFragment = FavoriteFragment.newInstance()
         myInfoFragment = MyInfoFragment.newInstance()
 
