@@ -49,14 +49,15 @@ testingtestingtestingtestingtestingtestingtestingtestingtestingtestingtestingtes
       //  Log.d("error",R.drawable.ic_test_info.toString())
         titleView.setText(titleContent)
         readView.setText(infoContent)
+
+        var imageView: ImageView = view.findViewById(R.id.infoImageView)
+        imageView.setImageResource(R.drawable.ic_test_info)
+
         return view
     }
     // TODO: Insert Naver Map
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        var imageView: ImageView = view.findViewById(R.id.infoImageView)
-        imageView.setImageResource(R.drawable.ic_test_info)
-
     }
     // TODO: Rename method, update argument and hook method into UI event
 
