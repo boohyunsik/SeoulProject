@@ -43,7 +43,6 @@ class CultureListFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         var view : View =  inflater.inflate(R.layout.fragment_list, container, false)
-        cultureData = ArrayList<CultureRow>()
 
         recyclerView = view.listview
         recyclerView.setItemViewCacheSize(20)
@@ -51,7 +50,7 @@ class CultureListFragment : Fragment() {
 
         linearLayoutManager = LinearLayoutManager(activity?.applicationContext)
         recyclerView.layoutManager= linearLayoutManager
-        adapter = CultureListAdapter(recyclerView)
+        adapter = CultureListAdapter(recyclerView, fm)
         recyclerView.adapter = adapter
 
         disposable = viewModel
@@ -72,11 +71,6 @@ class CultureListFragment : Fragment() {
             }
         })
         return view
-    }
-
-    fun setData(row : CultureRow) {
-        cultureData.add(row)
-        adapter.notifyDataSetChanged()
     }
 
     override fun onDetach() {

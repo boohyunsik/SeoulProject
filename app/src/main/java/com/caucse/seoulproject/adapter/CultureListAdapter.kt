@@ -1,5 +1,7 @@
 package com.caucse.seoulproject.adapter
 
+import android.content.Intent
+import android.support.v4.app.FragmentManager
 import com.caucse.seoulproject.R
 import android.support.v7.widget.RecyclerView
 import android.util.Log
@@ -7,12 +9,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.caucse.seoulproject.data.CultureRow
+import com.caucse.seoulproject.fragment.InfoFragment
+import com.jakewharton.rxbinding2.view.RxView
 import com.squareup.picasso.Picasso
 import com.squareup.picasso.PicassoProvider
 import kotlinx.android.synthetic.main.list_item.view.*
 
 
-class CultureListAdapter(view : RecyclerView) : RecyclerView.Adapter<RowHolder>() {
+class CultureListAdapter(val view : RecyclerView, val fm: FragmentManager) : RecyclerView.Adapter<RowHolder>() {
     private val TAG = "CultureListAdapter"
     private val inflater : LayoutInflater = LayoutInflater.from(view.context)
     private var data : ArrayList<CultureRow> = ArrayList<CultureRow>()
@@ -38,7 +42,15 @@ class CultureListAdapter(view : RecyclerView) : RecyclerView.Adapter<RowHolder>(
             Log.d(TAG, e.message)
         }
         holder.titleTitleView.setText(title)
-
+        RxView
+                .clicks(holder.cardView)
+                .subscribe {
+                    Log.d(TAG, "click card view")
+                    fm.beginTransaction()
+                            .addToBackStack("parent")
+                            .replace(R.id.frame_layout, InfoFragment.newInstance(data))
+                            .commit()
+                }
     }
 
     override fun getItemCount(): Int {
