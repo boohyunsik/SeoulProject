@@ -42,8 +42,7 @@ class CultureListAdapter(val view : RecyclerView, val fm: FragmentManager) : Rec
             Log.d(TAG, e.message)
         }
         holder.titleTitleView.setText(title)
-        RxView
-                .clicks(holder.cardView)
+        RxView.clicks(holder.cardView)
                 .subscribe {
                     Log.d(TAG, "click card view")
                     fm.beginTransaction()
