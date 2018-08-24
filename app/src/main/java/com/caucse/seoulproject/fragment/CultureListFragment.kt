@@ -1,5 +1,6 @@
 package com.caucse.seoulproject.fragment
 
+import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.net.Uri
@@ -26,6 +27,7 @@ import kotlinx.coroutines.experimental.async
 class CultureListFragment : Fragment() {
 
     private val TAG = "CultureListFragment"
+    private val owner = this
 
     private var listener: OnFragmentInteractionListener? = null
     private lateinit var recyclerView : RecyclerView
@@ -57,19 +59,18 @@ class CultureListFragment : Fragment() {
         adapter = CultureListAdapter(recyclerView, fm)
         recyclerView.adapter = adapter
 
-        disposable = viewModel
-                .initData()
-                .subscribe {
-                    adapter.addData(it)
-                }
+        mainViewModel.initData(context!!).observe(owner, Observer<ArrayList<CultureRow>> {
+            livedata -> adapter.addData(livedata!!.toList())
+
+        })
 
         recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState : Int) {
                 if (newState == RecyclerView.SCROLL_STATE_IDLE && !recyclerView.canScrollVertically(1)) {
                     async(UI) {
-                        disposable = viewModel.
-                                requestAdditionalData().
-                                subscribe { adapter.addData(it) }
+                        mainViewModel.addData(context!!).observe(owner, Observer<ArrayList<CultureRow>> {
+                            livedata -> adapter.addData(livedata!!.toList())
+                        })
                     }
                 }
             }

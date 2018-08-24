@@ -26,6 +26,11 @@ class CultureListAdapter(val view : RecyclerView, val fm: FragmentManager) : Rec
         notifyDataSetChanged()
     }
 
+    fun addData(e : CultureRow) {
+        data.add(e)
+        notifyDataSetChanged()
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RowHolder {
         return RowHolder(inflater.inflate(R.layout.list_item, parent, false))
     }
