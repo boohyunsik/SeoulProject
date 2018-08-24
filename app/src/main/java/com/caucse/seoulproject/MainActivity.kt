@@ -1,5 +1,7 @@
 package com.caucse.seoulproject
 
+import android.arch.lifecycle.ViewModelProvider
+import android.arch.lifecycle.ViewModelProviders
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.os.Bundle
@@ -10,6 +12,7 @@ import android.widget.FrameLayout
 import com.caucse.seoulproject.fragment.CultureListFragment
 import com.caucse.seoulproject.fragment.FavoriteFragment
 import com.caucse.seoulproject.fragment.MyInfoFragment
+import com.caucse.seoulproject.viewmodel.MainViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -22,6 +25,8 @@ class MainActivity : AppCompatActivity() {
     lateinit var listfragment : CultureListFragment
     lateinit var favoriteFragment: FavoriteFragment
     lateinit var myInfoFragment : MyInfoFragment
+
+    lateinit var mainViewModel : MainViewModel
 
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when (item.itemId) {
@@ -49,6 +54,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
+        mainViewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
     }
 
     override fun onResume() {

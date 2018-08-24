@@ -1,5 +1,6 @@
 package com.caucse.seoulproject.fragment
 
+import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.net.Uri
 import android.os.Bundle
@@ -15,6 +16,7 @@ import com.caucse.seoulproject.R
 import com.caucse.seoulproject.adapter.CultureListAdapter
 import com.caucse.seoulproject.data.CultureRow
 import com.caucse.seoulproject.viewmodel.ListViewModel
+import com.caucse.seoulproject.viewmodel.MainViewModel
 import io.reactivex.disposables.Disposable
 import io.reactivex.disposables.Disposables
 import kotlinx.android.synthetic.main.fragment_list.view.*
@@ -30,6 +32,7 @@ class CultureListFragment : Fragment() {
     private lateinit var cultureData : ArrayList<CultureRow>
     private lateinit var linearLayoutManager : LinearLayoutManager
     private lateinit var fm: FragmentManager
+    private lateinit var mainViewModel : MainViewModel
 
     private lateinit var adapter : CultureListAdapter
 
@@ -38,6 +41,7 @@ class CultureListFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        mainViewModel = ViewModelProviders.of(activity!!).get(MainViewModel::class.java)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
