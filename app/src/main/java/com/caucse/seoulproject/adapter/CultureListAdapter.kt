@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import com.caucse.seoulproject.data.CultureRow
 import com.caucse.seoulproject.fragment.InfoFragment
 import com.jakewharton.rxbinding2.view.RxView
+import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 import com.squareup.picasso.PicassoProvider
 import kotlinx.android.synthetic.main.list_item.view.*
@@ -20,6 +21,15 @@ class CultureListAdapter(val view : RecyclerView, val fm: FragmentManager) : Rec
     private val TAG = "CultureListAdapter"
     private val inflater : LayoutInflater = LayoutInflater.from(view.context)
     private var data : ArrayList<CultureRow> = ArrayList<CultureRow>()
+    private val callback: Callback = object: Callback {
+        override fun onSuccess() {
+            Log.d(TAG, "Picasso : onSuccess()")
+        }
+
+        override fun onError(e: java.lang.Exception?) {
+            Log.d(TAG, "Picasso : onError() -> ${e?.message}")
+        }
+    }
 
     fun addData(e : List<CultureRow>) {
         data.addAll(e)
@@ -42,7 +52,7 @@ class CultureListAdapter(val view : RecyclerView, val fm: FragmentManager) : Rec
         try {
             Picasso.get().load(url)
                     .fit()
-                    .into(holder.titleImageView)
+                    .into(holder.titleImageView, callback)
         } catch (e: Exception) {
             Log.d(TAG, e.message)
         }
