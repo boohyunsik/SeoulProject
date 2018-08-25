@@ -4,10 +4,12 @@ import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.net.Uri
 import android.os.Bundle
+import android.os.Parcelable
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -25,6 +27,7 @@ import kotlinx.coroutines.experimental.async
 class CultureListFragment : Fragment() {
 
     private val TAG = "CultureListFragment"
+    private val KEY_RECYCLER_STATE = "recycler_state"
     private val owner = this
 
     private var listener: OnFragmentInteractionListener? = null
@@ -33,6 +36,8 @@ class CultureListFragment : Fragment() {
     private lateinit var linearLayoutManager : LinearLayoutManager
     private lateinit var fm: FragmentManager
     private lateinit var mainViewModel : MainViewModel
+
+    private var bundle: Bundle? = null
 
     private lateinit var adapter : CultureListAdapter
 
@@ -43,9 +48,31 @@ class CultureListFragment : Fragment() {
         mainViewModel = ViewModelProviders.of(activity!!).get(MainViewModel::class.java)
     }
 
+    override fun onResume() {
+        super.onResume()
+        Log.d(TAG, "onResume()")
+        if (bundle != null) {
+            var state: Parcelable = bundle!!.getParcelable(KEY_RECYCLER_STATE)
+            recyclerView.layoutManager.onRestoreInstanceState(state)
+        }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        bundle = Bundle()
+        var state: Parcelable = recyclerView.layoutManager.onSaveInstanceState()
+        bundle!!.putParcelable(KEY_RECYCLER_STATE, state)
+
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        var view : View =  inflater.inflate(R.layout.fragment_list, container, false)
+        Log.d(TAG, "onCreateView()")
+        if (getView() != null) {
+            return getView()
+        }
+
+        var view : View = inflater.inflate(R.layout.fragment_list, container, false)
 
         recyclerView = view.listview
         recyclerView.setItemViewCacheSize(20)
@@ -53,12 +80,12 @@ class CultureListFragment : Fragment() {
 
         linearLayoutManager = LinearLayoutManager(activity?.applicationContext)
         recyclerView.layoutManager= linearLayoutManager
-        adapter = CultureListAdapter(recyclerView, fm)
+
+        adapter = CultureListAdapter(recyclerView, fm, mainViewModel, context!!)
         recyclerView.adapter = adapter
 
         mainViewModel.initData(context!!).observe(owner, Observer<ArrayList<CultureRow>> {
-            livedata -> adapter.addData(livedata!!.toList())
-
+            livedata -> adapter.initData(livedata!!.toList())
         })
 
         recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
@@ -72,6 +99,7 @@ class CultureListFragment : Fragment() {
                 }
             }
         })
+
         return view
     }
 
@@ -85,6 +113,7 @@ class CultureListFragment : Fragment() {
         // TODO: Update argument type and name
         fun onFragmentInteraction(uri: Uri)
     }
+
 
     companion object {
         @JvmStatic

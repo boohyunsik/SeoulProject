@@ -7,8 +7,9 @@ import android.arch.persistence.room.PrimaryKey
 @Entity
 class Favorite {
     @PrimaryKey
-    private lateinit var cultureKey : String
+    @ColumnInfo(name="culture_code")
+    lateinit var cultureCode : String
 
     @ColumnInfo(name="user_id")
-    private lateinit var userId : String
+    lateinit var userId : String
 }

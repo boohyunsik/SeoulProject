@@ -1,5 +1,6 @@
 package com.caucse.seoulproject
 
+import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProvider
 import android.arch.lifecycle.ViewModelProviders
 import android.support.v4.app.Fragment
@@ -9,6 +10,7 @@ import android.support.design.widget.BottomNavigationView
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.widget.FrameLayout
+import com.caucse.seoulproject.data.CultureRow
 import com.caucse.seoulproject.fragment.CultureListFragment
 import com.caucse.seoulproject.fragment.FavoriteFragment
 import com.caucse.seoulproject.fragment.MyInfoFragment
@@ -75,7 +77,6 @@ class MainActivity : AppCompatActivity() {
         fragmentManager.beginTransaction().add(R.id.frame_layout, favoriteFragment).hide(favoriteFragment).commit()
         fragmentManager.beginTransaction().add(R.id.frame_layout, listfragment).commit()
         fragmentManager.beginTransaction().setCustomAnimations(R.anim.abc_fade_in, R.anim.abc_fade_out)
-
         active = listfragment
     }
 }

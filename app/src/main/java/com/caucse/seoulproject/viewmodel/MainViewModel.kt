@@ -7,14 +7,26 @@ import android.content.Context
 import android.util.Log
 import com.caucse.seoulproject.data.CultureRow
 import com.caucse.seoulproject.helper.CultureApiHelper
+import com.caucse.seoulproject.helper.DatabaseHelper
+import com.caucse.seoulproject.helper.table.Favorite
 
 class MainViewModel : ViewModel() {
 
     val TAG = "MainViewModel"
 
     private val cultureApiHelper by lazy { CultureApiHelper() }
+    private lateinit var userid: String
+    private lateinit var username: String
 
     private var concertData : MutableLiveData<ArrayList<CultureRow>> = MutableLiveData<ArrayList<CultureRow>>()
+
+    init {
+        userid = "boohyunsik"
+    }
+
+    fun isInit() : Boolean {
+        return concertData.value != null
+    }
 
     fun initData(context: Context): MutableLiveData<ArrayList<CultureRow>> {
         var data = cultureApiHelper.getData(context, 0, 3).SearchConcertDetailService.row
@@ -31,5 +43,15 @@ class MainViewModel : ViewModel() {
         val ret: MutableLiveData<ArrayList<CultureRow>> = MutableLiveData<ArrayList<CultureRow>>()
         ret.value = data
         return ret
+    }
+
+    fun getIsFavorited(context : Context, cultureCode : String) : Boolean {
+        var data: LiveData<Favorite> = DatabaseHelper
+                .getInstance(context)!!
+                .getFavoriteDao()
+                .load(userid, cultureCode)
+
+        if (data.value == null) return false
+        return true
     }
 }
