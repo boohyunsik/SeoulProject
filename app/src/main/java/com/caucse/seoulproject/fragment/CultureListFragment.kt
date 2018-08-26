@@ -81,7 +81,7 @@ class CultureListFragment : Fragment() {
         linearLayoutManager = LinearLayoutManager(activity?.applicationContext)
         recyclerView.layoutManager= linearLayoutManager
 
-        adapter = CultureListAdapter(recyclerView, fm, mainViewModel, context!!)
+        adapter = CultureListAdapter(recyclerView, this, fm, mainViewModel, context!!)
         recyclerView.adapter = adapter
 
         mainViewModel.initData(context!!).observe(owner, Observer<ArrayList<CultureRow>> {

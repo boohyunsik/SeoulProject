@@ -3,6 +3,7 @@ package com.caucse.seoulproject.adapter
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.content.Intent
+import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import com.caucse.seoulproject.R
 import android.support.v7.widget.RecyclerView
@@ -21,6 +22,7 @@ import kotlinx.android.synthetic.main.list_item.view.*
 
 
 class CultureListAdapter(val view : RecyclerView
+                         , val fragment: Fragment
                          , val fm: FragmentManager
                          , val mainViewModel: MainViewModel
                          , val context: Context) : RecyclerView.Adapter<RowHolder>() {
@@ -83,7 +85,8 @@ class CultureListAdapter(val view : RecyclerView
                     Log.d(TAG, "click card view")
                     fm.beginTransaction()
                             .addToBackStack(null)
-                            .replace(R.id.frame_layout, InfoFragment.newInstance(data))
+                            .hide(fragment)
+                            .add(R.id.frame_layout, InfoFragment.newInstance(data))
                             .commit()
                 }
 
