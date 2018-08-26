@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
+import android.support.v4.app.FragmentTransaction
 import com.caucse.seoulproject.R
 import android.support.v7.widget.RecyclerView
 import android.util.Log
@@ -86,6 +87,7 @@ class CultureListAdapter(val view : RecyclerView
                     fm.beginTransaction()
                             .addToBackStack(null)
                             .hide(fragment)
+                            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                             .add(R.id.frame_layout, InfoFragment.newInstance(data))
                             .commit()
                 }
@@ -94,7 +96,6 @@ class CultureListAdapter(val view : RecyclerView
                 .subscribe {
                     var key = data.CULTCODE
                 }
-
     }
 
     override fun getItemCount(): Int {
