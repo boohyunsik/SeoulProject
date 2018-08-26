@@ -9,6 +9,13 @@ import com.caucse.seoulproject.data.CultureRow
 import com.caucse.seoulproject.helper.CultureApiHelper
 import com.caucse.seoulproject.helper.DatabaseHelper
 import com.caucse.seoulproject.helper.table.Favorite
+import io.reactivex.Maybe
+import io.reactivex.Observable
+import io.reactivex.Scheduler
+import io.reactivex.Single
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
+import kotlinx.coroutines.experimental.async
 
 class MainViewModel : ViewModel() {
 
@@ -45,13 +52,37 @@ class MainViewModel : ViewModel() {
         return ret
     }
 
-    fun getIsFavorited(context : Context, cultureCode : String) : Boolean {
-        var data: LiveData<Favorite> = DatabaseHelper
+    fun getIsFavorited(context : Context, cultureCode : String) : Single<Favorite> {
+        Log.d(TAG, "getIsFavorited()")
+        return DatabaseHelper
                 .getInstance(context)!!
                 .getFavoriteDao()
                 .load(userid, cultureCode)
+    }
 
-        if (data.value == null) return false
-        return true
+    fun setFavorite(context: Context, data: CultureRow) {
+        setFavorite(context, data.CULTCODE)
+    }
+
+    fun setFavorite(context: Context, cultureCode: String) {
+        val favorite: Favorite = Favorite()
+        favorite.cultureCode = cultureCode
+        favorite.userId = userid
+        Log.d(TAG, "insert to db : cultcode=${cultureCode}, userid=${userid}")
+        async {
+            DatabaseHelper
+                    .getInstance(context)!!
+                    .getFavoriteDao()
+                    .insert(favorite)
+        }
+    }
+
+    fun delFavorite(context: Context, cultureCode: String) {
+        async {
+            DatabaseHelper
+                    .getInstance(context)!!
+                    .getFavoriteDao()
+                    .delete(userid, cultureCode)
+        }
     }
 }

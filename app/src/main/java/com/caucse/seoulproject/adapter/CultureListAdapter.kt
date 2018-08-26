@@ -19,6 +19,8 @@ import com.jakewharton.rxbinding2.view.RxView
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 import com.squareup.picasso.PicassoProvider
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.list_item.view.*
 
 
@@ -73,14 +75,27 @@ class CultureListAdapter(val view : RecyclerView
         }
         holder.titleTitleView.setText(title)
 
-        var res: Int
-        if (!mainViewModel.getIsFavorited(context, data.CULTCODE)) {
-            res = R.drawable.baseline_favorite_border_black_18dp
-        } else {
-            res = R.drawable.baseline_favorite_black_18dp
-        }
-        holder.like.setBackgroundResource(res)
+        var res: Int = R.drawable.baseline_favorite_border_black_18dp
+        val key = data.CULTCODE
+        mainViewModel.getIsFavorited(context, key)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        {
+                            holder.like.setBackgroundResource(R.drawable.baseline_favorite_black_18dp)
+                        },
+                        {
+                            holder.like.setBackgroundResource(R.drawable.baseline_favorite_border_black_18dp)
+                        }
+                )
+        setClickListener(holder, data)
+    }
 
+    override fun getItemCount(): Int {
+        return data.size
+    }
+
+    fun setClickListener(holder: RowHolder, data: CultureRow) {
         RxView.clicks(holder.titleImageView)
                 .subscribe {
                     Log.d(TAG, "click card view")
@@ -95,18 +110,22 @@ class CultureListAdapter(val view : RecyclerView
         RxView.clicks(holder.like)
                 .subscribe {
                     var key = data.CULTCODE
+                    mainViewModel.getIsFavorited(context, key)
+                            .subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe(
+                                    {
+                                        Log.d(TAG, "doOnSuccess -> There is a data")
+                                        mainViewModel.delFavorite(context, key)
+                                        holder.like.setBackgroundResource(R.drawable.baseline_favorite_border_black_18dp)
+                                    },
+                                    {
+                                        Log.d(TAG, "doOnError -> There is no data")
+                                        mainViewModel.setFavorite(context, key)
+                                        holder.like.setBackgroundResource(R.drawable.baseline_favorite_black_18dp)
+                                    }
+                            )
                 }
+
     }
-
-    override fun getItemCount(): Int {
-        return data.size
-    }
-
-}
-
-class RowHolder (row: View) : RecyclerView.ViewHolder(row) {
-    var cardView = row.card_view
-    var titleImageView = row.title_image
-    var titleTitleView = row.title_title
-    var like = row.like_but
 }

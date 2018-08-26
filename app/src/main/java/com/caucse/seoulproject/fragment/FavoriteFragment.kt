@@ -1,5 +1,6 @@
 package com.caucse.seoulproject.fragment
 
+import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.net.Uri
 import android.os.Bundle
@@ -9,13 +10,18 @@ import android.view.View
 import android.view.ViewGroup
 
 import com.caucse.seoulproject.R
+import com.caucse.seoulproject.viewmodel.MainViewModel
 
 class FavoriteFragment : Fragment() {
 
     private var listener: OnFragmentInteractionListener? = null
 
+    private val TAG = "FavoriteFragment"
+    private lateinit var mainViewModel: MainViewModel
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        mainViewModel = ViewModelProviders.of(activity!!).get(MainViewModel::class.java)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,

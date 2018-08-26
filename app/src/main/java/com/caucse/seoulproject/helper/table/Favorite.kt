@@ -4,9 +4,13 @@ import android.arch.persistence.room.ColumnInfo
 import android.arch.persistence.room.Entity
 import android.arch.persistence.room.PrimaryKey
 
-@Entity
+@Entity(tableName="favorite")
 class Favorite {
-    @PrimaryKey
+
+    @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(name="id")
+    var id: Int = 0
+
     @ColumnInfo(name="culture_code")
     lateinit var cultureCode : String
 

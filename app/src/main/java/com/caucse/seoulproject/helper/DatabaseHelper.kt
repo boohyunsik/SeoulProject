@@ -7,7 +7,7 @@ import android.content.Context
 import com.caucse.seoulproject.helper.dao.FavoriteDao
 import com.caucse.seoulproject.helper.table.*
 
-@Database(version = 1, entities = [User::class, Favorite::class])
+@Database(version = 2, entities = [User::class, Favorite::class])
 abstract class DatabaseHelper : RoomDatabase() {
 
     abstract fun getFavoriteDao(): FavoriteDao
@@ -23,6 +23,7 @@ abstract class DatabaseHelper : RoomDatabase() {
                             context,
                             DatabaseHelper::class.java,
                             "culture.db")
+                            .fallbackToDestructiveMigration()
                             .build()
                 }
             }
