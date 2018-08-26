@@ -16,12 +16,12 @@ import com.caucse.seoulproject.data.CultureRow
 import com.caucse.seoulproject.fragment.InfoFragment
 import com.caucse.seoulproject.viewmodel.MainViewModel
 import com.jakewharton.rxbinding2.view.RxView
-import com.squareup.picasso.Callback
-import com.squareup.picasso.Picasso
-import com.squareup.picasso.PicassoProvider
+import com.squareup.picasso.*
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.list_item.view.*
+import kotlinx.coroutines.experimental.async
+import java.lang.Exception
 
 
 class CultureListAdapter(val view : RecyclerView
@@ -33,15 +33,14 @@ class CultureListAdapter(val view : RecyclerView
 
     private val inflater : LayoutInflater = LayoutInflater.from(view.context)
     private var data : ArrayList<CultureRow> = ArrayList<CultureRow>()
-    private val callback: Callback = object: Callback {
-        override fun onSuccess() {
-            Log.d(TAG, "Picasso : onSuccess()")
-        }
 
-        override fun onError(e: java.lang.Exception?) {
-            Log.d(TAG, "Picasso : onError() -> ${e?.message}")
-        }
+    private val icFavorite = R.drawable.ic_baseline_favorite_24px
+    private val icNonFavorite = R.drawable.ic_baseline_favorite_border_24px
+
+    init {
+        Picasso.get().setIndicatorsEnabled(true)
     }
+
     fun initData(e : List<CultureRow>) {
         data.clear()
         data.addAll(e)
@@ -66,26 +65,33 @@ class CultureListAdapter(val view : RecyclerView
         val data : CultureRow = data.get(position)
         val url = data.MAIN_IMG.toLowerCase()
         val title = data.TITLE
-        try {
-            Picasso.get().load(url)
-                    .fit()
-                    .into(holder.titleImageView, callback)
-        } catch (e: Exception) {
-            Log.d(TAG, e.message)
-        }
+
+        Picasso.get().load(url)
+                .fit()
+                .into(holder.titleImageView, object: Callback {
+                    override fun onSuccess() {
+                        Log.d(TAG, "Picasso : onSuccess() -> $url")
+                    }
+
+                    override fun onError(e: Exception?) {
+                        Log.d(TAG, "Picasso : onError() -> $url")
+                        Picasso.get().load(parseUrl(url))
+                                .fit()
+                                .into(holder.titleImageView)
+                    }
+                })
         holder.titleTitleView.setText(title)
 
-        var res: Int = R.drawable.baseline_favorite_border_black_18dp
         val key = data.CULTCODE
         mainViewModel.getIsFavorited(context, key)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                         {
-                            holder.like.setBackgroundResource(R.drawable.baseline_favorite_black_18dp)
+                            holder.like.setImageResource(icFavorite)
                         },
                         {
-                            holder.like.setBackgroundResource(R.drawable.baseline_favorite_border_black_18dp)
+                            holder.like.setImageResource(icNonFavorite)
                         }
                 )
         setClickListener(holder, data)
@@ -93,6 +99,10 @@ class CultureListAdapter(val view : RecyclerView
 
     override fun getItemCount(): Int {
         return data.size
+    }
+
+    override fun getItemId(position: Int): Long {
+        return position.toLong()
     }
 
     fun setClickListener(holder: RowHolder, data: CultureRow) {
@@ -117,15 +127,21 @@ class CultureListAdapter(val view : RecyclerView
                                     {
                                         Log.d(TAG, "doOnSuccess -> There is a data")
                                         mainViewModel.delFavorite(context, key)
-                                        holder.like.setBackgroundResource(R.drawable.baseline_favorite_border_black_18dp)
+                                        holder.like.setImageResource(icNonFavorite)
                                     },
                                     {
                                         Log.d(TAG, "doOnError -> There is no data")
                                         mainViewModel.setFavorite(context, key)
-                                        holder.like.setBackgroundResource(R.drawable.baseline_favorite_black_18dp)
+                                        holder.like.setImageResource(icFavorite)
                                     }
                             )
                 }
 
+    }
+
+    fun parseUrl(url: String) : String {
+        var ret: String = url.substring(0, url.length-3)
+        val format: String = url.substring(url.length-3).toUpperCase()
+        return ret + format
     }
 }

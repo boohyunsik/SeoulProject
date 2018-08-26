@@ -75,13 +75,14 @@ class CultureListFragment : Fragment() {
         var view : View = inflater.inflate(R.layout.fragment_list, container, false)
 
         recyclerView = view.listview
-        recyclerView.setItemViewCacheSize(20)
-        recyclerView.isDrawingCacheEnabled = true
+        //recyclerView.itemAnimator.changeDuration = 0
+        //recyclerView.isDrawingCacheEnabled = true
 
         linearLayoutManager = LinearLayoutManager(activity?.applicationContext)
         recyclerView.layoutManager= linearLayoutManager
 
         adapter = CultureListAdapter(recyclerView, this, fm, mainViewModel, context!!)
+        adapter.setHasStableIds(true)
         recyclerView.adapter = adapter
 
         mainViewModel.initData(context!!).observe(owner, Observer<ArrayList<CultureRow>> {
