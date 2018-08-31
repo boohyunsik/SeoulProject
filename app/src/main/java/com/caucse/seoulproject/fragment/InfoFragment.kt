@@ -16,6 +16,7 @@ import android.widget.ImageView
 import android.widget.TextView
 
 import com.caucse.seoulproject.R
+import com.caucse.seoulproject.R.id.mapView
 import com.caucse.seoulproject.data.CultureRow
 import com.nhn.android.maps.nmapdata.t
 import kotlinx.android.synthetic.*
@@ -28,7 +29,7 @@ import com.nhn.android.maps.NMapView
 import java.sql.ClientInfoStatus
 
 
-class InfoFragment : Fragment() {
+class InfoFragment : NMapFragment() {
 
     private var listener: OnFragmentInteractionListener? = null
     private lateinit var mMapView:NMapView
@@ -47,7 +48,7 @@ class InfoFragment : Fragment() {
         var view: View= inflater.inflate(R.layout.fragment_info, container, false)
         var readView:TextView = view.findViewById(R.id.readMoreTextView)
         var titleView:TextView = view.findViewById(R.id.titleView)
-        var mapView:NMapView = view.findViewById(R.id.mapView)
+        var mMapView:NMapView = view.findViewById(R.id.mapView)
         var titleContent =  "타이틀입니다"
         var infoContent = """test"""
         var imageView: ImageView = view.findViewById(R.id.infoImageView)
@@ -59,10 +60,14 @@ class InfoFragment : Fragment() {
         titleView.setText(titleContent)
         readView.setText(infoContent)
         imageView.setImageResource(R.drawable.ic_test_info)
-        mapView.setClientId(CLIENT_ID)
-        mMapContext.setupMapView(mapView)
+        mMapView.setClientId(CLIENT_ID)
+        mMapView.isClickable
+        mMapView.isEnabled
+        mMapView.isFocusable
+        mMapView.isFocusableInTouchMode
+        mMapView.requestFocus()
 
-
+        mMapContext.setupMapView(mMapView)
         return view
     }
 
