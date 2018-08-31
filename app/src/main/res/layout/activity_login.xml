@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/white"
     tools:context=".LoginActivity"
     tools:layout_editor_absoluteY="81dp">
 
@@ -15,11 +16,12 @@
         android:gravity="center"
         android:orientation="horizontal">
 
-        <TextView
+        <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="SeoulProject"
-            android:textSize="40dp" />
+            android:layout_gravity="center"
+            android:scaleType="centerCrop"
+            android:src="@drawable/logo_name1"/>
     </LinearLayout>
 
     <LinearLayout
