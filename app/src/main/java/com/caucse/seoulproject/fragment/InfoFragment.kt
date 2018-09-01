@@ -55,16 +55,12 @@ class InfoFragment : NMapFragment() {
         var mMapContext:NMapContext = NMapContext(super.getActivity())
         mMapContext.onCreate()
 
-
-
         titleView.setText(titleContent)
         readView.setText(infoContent)
         imageView.setImageResource(R.drawable.ic_test_info)
         mMapView.setClientId(CLIENT_ID)
-        mMapView.isClickable
-        mMapView.isEnabled
-        mMapView.isFocusable
-        mMapView.isFocusableInTouchMode
+        mMapView.isClickable = true
+        mMapView.isEnabled = true
         mMapView.requestFocus()
 
         mMapContext.setupMapView(mMapView)
