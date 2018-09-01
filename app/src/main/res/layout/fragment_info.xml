@@ -70,9 +70,9 @@
 
             <LinearLayout
                 android:id="@+id/linearLayout"
-                android:layout_width="360dp"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="168dp"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:layout_margin="8dp"
                 android:orientation="vertical"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">Culin</string>
     <string name="key">667a614a766268733132356b47506c7a</string>
+    <string name="naver_client_key">ILMvRUaQNzCAYsTvxb59</string>
+    <string name="naver_secret_key">tNuAP0CtD5</string>
     <string name="title_activity_list">SeoulProject</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>

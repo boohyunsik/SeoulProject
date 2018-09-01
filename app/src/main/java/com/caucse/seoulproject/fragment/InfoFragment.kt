@@ -18,6 +18,7 @@ import android.widget.TextView
 import com.caucse.seoulproject.R
 import com.caucse.seoulproject.R.id.mapView
 import com.caucse.seoulproject.data.CultureRow
+import com.caucse.seoulproject.helper.NMapApiHelper
 import com.nhn.android.maps.nmapdata.t
 import kotlinx.android.synthetic.*
 import kotlinx.android.synthetic.main.fragment_info.*
@@ -35,7 +36,6 @@ class InfoFragment : NMapFragment() {
     private lateinit var mMapView:NMapView
     private lateinit var mMapContext:NMapContext
 
-    private  var CLIENT_ID = "ILMvRUaQNzCAYsTvxb59"
     private lateinit var cultureData : CultureRow
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -58,12 +58,17 @@ class InfoFragment : NMapFragment() {
         titleView.setText(titleContent)
         readView.setText(infoContent)
         imageView.setImageResource(R.drawable.ic_test_info)
-        mMapView.setClientId(CLIENT_ID)
+        mMapView.setClientId(getString(R.string.naver_client_key))
         mMapView.isClickable = true
         mMapView.isEnabled = true
+        mMapView.isFocusable = true
+        mMapView.isFocusableInTouchMode = true
         mMapView.requestFocus()
 
         mMapContext.setupMapView(mMapView)
+
+        NMapApiHelper().getData(context, "강동아트센터 대극장 한강")
+
         return view
     }
 
