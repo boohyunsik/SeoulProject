@@ -109,6 +109,7 @@ class CultureListAdapter(val view : RecyclerView
         RxView.clicks(holder.titleImageView)
                 .subscribe {
                     Log.d(TAG, "click card view")
+                    mainViewModel.curConcert = data
                     fm.beginTransaction()
                             .addToBackStack(null)
                             .hide(fragment)

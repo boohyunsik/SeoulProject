@@ -26,7 +26,7 @@ class MainViewModel : ViewModel() {
     private lateinit var username: String
 
     private var concertData : MutableLiveData<ArrayList<CultureRow>> = MutableLiveData<ArrayList<CultureRow>>()
-
+    var curConcert : CultureRow? = null
     init {
         userid = "boohyunsik"
     }
