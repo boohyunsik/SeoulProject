@@ -30,6 +30,8 @@ class CultureListFragment : Fragment() {
     private val KEY_RECYCLER_STATE = "recycler_state"
     private val owner = this
 
+    private var thisView: View? = null
+
     private var listener: OnFragmentInteractionListener? = null
     private lateinit var recyclerView : RecyclerView
     private lateinit var cultureData : ArrayList<CultureRow>
@@ -68,38 +70,37 @@ class CultureListFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         Log.d(TAG, "onCreateView()")
-        if (getView() != null) {
-            return getView()
-        }
 
-        var view : View = inflater.inflate(R.layout.fragment_list, container, false)
+        if (thisView == null) {
+            thisView = inflater.inflate(R.layout.fragment_list, container, false)
+            recyclerView = thisView!!.listview
 
-        recyclerView = view.listview
+            linearLayoutManager = LinearLayoutManager(activity?.applicationContext)
+            recyclerView.layoutManager= linearLayoutManager
 
-        linearLayoutManager = LinearLayoutManager(activity?.applicationContext)
-        recyclerView.layoutManager= linearLayoutManager
+            adapter = CultureListAdapter(recyclerView, this, fm, mainViewModel, context!!)
+            adapter.setHasStableIds(true)
 
-        adapter = CultureListAdapter(recyclerView, this, fm, mainViewModel, context!!)
-        adapter.setHasStableIds(true)
-        recyclerView.adapter = adapter
+            recyclerView.adapter = adapter
 
-        mainViewModel.initData(context!!).observe(owner, Observer<ArrayList<CultureRow>> {
-            livedata -> adapter.initData(livedata!!.toList())
-        })
+            mainViewModel.initData(context!!).observe(owner, Observer<ArrayList<CultureRow>> {
+                livedata -> adapter.initData(livedata!!.toList())
+            })
 
-        recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrollStateChanged(recyclerView: RecyclerView, newState : Int) {
-                if (newState == RecyclerView.SCROLL_STATE_IDLE && !recyclerView.canScrollVertically(1)) {
-                    async(UI) {
-                        mainViewModel.addData(context!!).observe(owner, Observer<ArrayList<CultureRow>> {
-                            livedata -> adapter.addData(livedata!!.toList())
-                        })
+            recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+                override fun onScrollStateChanged(recyclerView: RecyclerView, newState : Int) {
+                    if (newState == RecyclerView.SCROLL_STATE_IDLE && !recyclerView.canScrollVertically(1)) {
+                        async(UI) {
+                            mainViewModel.addData(context!!).observe(owner, Observer<ArrayList<CultureRow>> {
+                                livedata -> adapter.addData(livedata!!.toList())
+                            })
+                        }
                     }
                 }
-            }
-        })
+            })
+        }
 
-        return view
+        return thisView
     }
 
     override fun onDetach() {

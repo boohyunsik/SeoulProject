@@ -10,6 +10,7 @@ import android.support.design.widget.BottomNavigationView
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.widget.FrameLayout
+import android.widget.Toast
 import com.caucse.seoulproject.data.CultureRow
 import com.caucse.seoulproject.fragment.CultureListFragment
 import com.caucse.seoulproject.fragment.FavoriteFragment
@@ -29,21 +30,31 @@ class MainActivity : AppCompatActivity() {
     lateinit var myInfoFragment : MyInfoFragment
 
     lateinit var mainViewModel : MainViewModel
+    var backKeyPressedTime: Long = 0
+    var toast: Toast? = null
 
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
+        if (fragmentManager.backStackEntryCount > 0) {
+            fragmentManager.popBackStack()
+        }
+
         when (item.itemId) {
             R.id.navigation_home -> {
-                fragmentManager.beginTransaction().hide(active).show(listfragment).commit()
-                active = listfragment
                 return@OnNavigationItemSelectedListener true
             }
             R.id.navigation_dashboard -> {
-                fragmentManager.beginTransaction().hide(active).show(favoriteFragment).commit()
+                fragmentManager.beginTransaction()
+                        .addToBackStack(null)
+                        .replace(R.id.frame_layout, favoriteFragment, "favorite")
+                        .commit()
                 active = favoriteFragment
                 return@OnNavigationItemSelectedListener true
             }
             R.id.navigation_notifications -> {
-                fragmentManager.beginTransaction().hide(active).show(myInfoFragment).commit()
+                fragmentManager.beginTransaction()
+                        .addToBackStack(null)
+                        .replace(R.id.frame_layout, myInfoFragment, "myinfo")
+                        .commit()
                 active = myInfoFragment
                 return@OnNavigationItemSelectedListener true
             }
@@ -57,14 +68,8 @@ class MainActivity : AppCompatActivity() {
 
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
         mainViewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
-    }
 
-    override fun onResume() {
-        super.onResume()
-        Log.d(TAG, "onResume()")
-        frameLayout = frame_layout
         fragmentManager = supportFragmentManager
-
         listfragment = CultureListFragment.newInstance(fragmentManager)
         favoriteFragment = FavoriteFragment.newInstance()
         myInfoFragment = MyInfoFragment.newInstance()
@@ -72,12 +77,18 @@ class MainActivity : AppCompatActivity() {
         setFragmentManager()
     }
 
+    override fun onResume() {
+        super.onResume()
+        Log.d(TAG, "onResume()")
+        frameLayout = frame_layout
+    }
+
     private fun setFragmentManager() {
-        fragmentManager.beginTransaction().add(R.id.frame_layout, myInfoFragment).hide(myInfoFragment).commit()
-        fragmentManager.beginTransaction().add(R.id.frame_layout, favoriteFragment).hide(favoriteFragment).commit()
-        fragmentManager.beginTransaction().add(R.id.frame_layout, listfragment).commit()
+        fragmentManager.addOnBackStackChangedListener {
+            Log.d(TAG, "back stack change " + fragmentManager.backStackEntryCount)
+        }
+        fragmentManager.beginTransaction().add(R.id.frame_layout, listfragment, "list").commit()
         fragmentManager.beginTransaction().setCustomAnimations(R.anim.abc_fade_in, R.anim.abc_fade_out)
         active = listfragment
     }
 }
-

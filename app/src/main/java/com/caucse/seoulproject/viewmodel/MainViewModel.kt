@@ -4,7 +4,9 @@ import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import android.content.Context
+import android.support.v7.widget.RecyclerView
 import android.util.Log
+import com.caucse.seoulproject.adapter.CultureListAdapter
 import com.caucse.seoulproject.data.CultureRow
 import com.caucse.seoulproject.helper.CultureApiHelper
 import com.caucse.seoulproject.helper.DatabaseHelper
@@ -26,6 +28,7 @@ class MainViewModel : ViewModel() {
     private lateinit var username: String
 
     private var concertData : MutableLiveData<ArrayList<CultureRow>> = MutableLiveData<ArrayList<CultureRow>>()
+
     var curConcert : CultureRow? = null
     init {
         userid = "boohyunsik"
