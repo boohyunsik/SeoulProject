@@ -30,14 +30,11 @@ class MainActivity : AppCompatActivity() {
     lateinit var myInfoFragment : MyInfoFragment
 
     lateinit var mainViewModel : MainViewModel
-    var backKeyPressedTime: Long = 0
-    var toast: Toast? = null
 
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         if (fragmentManager.backStackEntryCount > 0) {
             fragmentManager.popBackStack()
         }
-
         when (item.itemId) {
             R.id.navigation_home -> {
                 return@OnNavigationItemSelectedListener true
@@ -59,6 +56,7 @@ class MainActivity : AppCompatActivity() {
                 return@OnNavigationItemSelectedListener true
             }
         }
+        navigation.selectedItemId = item.itemId
         false
     }
 
@@ -91,4 +89,14 @@ class MainActivity : AppCompatActivity() {
         fragmentManager.beginTransaction().setCustomAnimations(R.anim.abc_fade_in, R.anim.abc_fade_out)
         active = listfragment
     }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        Log.d(TAG, "in back : " + fragmentManager.backStackEntryCount)
+        if (fragmentManager.backStackEntryCount == 0) {
+            Log.d(TAG, "back key pressed()")
+            navigation.selectedItemId = R.id.navigation_home
+        }
+    }
 }
+
