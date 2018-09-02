@@ -8,7 +8,7 @@ import okhttp3.Request
 import org.json.JSONArray
 import org.json.JSONObject
 
-class NSearchApiHelper {
+object NSearchApiHelper {
     val TAG = "NSearchApiHelper"
 
     fun getData(context: Context?, name: String) : Observable<JSONObject?> {

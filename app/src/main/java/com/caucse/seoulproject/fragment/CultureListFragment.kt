@@ -75,8 +75,6 @@ class CultureListFragment : Fragment() {
         var view : View = inflater.inflate(R.layout.fragment_list, container, false)
 
         recyclerView = view.listview
-        //recyclerView.itemAnimator.changeDuration = 0
-        //recyclerView.isDrawingCacheEnabled = true
 
         linearLayoutManager = LinearLayoutManager(activity?.applicationContext)
         recyclerView.layoutManager= linearLayoutManager

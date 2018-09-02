@@ -10,7 +10,7 @@ import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.Response
 
-class NMapApiHelper {
+object NMapApiHelper {
     val TAG = "NMapApiHelper"
 
     fun getData(context: Context?, name: String) : Observable<String?> {

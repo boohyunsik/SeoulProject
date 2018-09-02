@@ -14,6 +14,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.caucse.seoulproject.data.CultureRow
 import com.caucse.seoulproject.fragment.InfoFragment
+import com.caucse.seoulproject.utils.ImageUtil
 import com.caucse.seoulproject.viewmodel.MainViewModel
 import com.jakewharton.rxbinding2.view.RxView
 import com.squareup.picasso.*
@@ -66,20 +67,7 @@ class CultureListAdapter(val view : RecyclerView
         val url = data.MAIN_IMG.toLowerCase()
         val title = data.TITLE
 
-        Picasso.get().load(url)
-                .fit()
-                .into(holder.titleImageView, object: Callback {
-                    override fun onSuccess() {
-                        Log.d(TAG, "Picasso : onSuccess() -> $url")
-                    }
-
-                    override fun onError(e: Exception?) {
-                        Log.d(TAG, "Picasso : onError() -> $url")
-                        Picasso.get().load(parseUrl(url))
-                                .fit()
-                                .into(holder.titleImageView)
-                    }
-                })
+        ImageUtil.setImage(holder.titleImageView, url)
         holder.titleTitleView.setText(title)
 
         val key = data.CULTCODE

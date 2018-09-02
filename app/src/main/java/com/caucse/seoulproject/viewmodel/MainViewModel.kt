@@ -85,4 +85,6 @@ class MainViewModel : ViewModel() {
                     .delete(userid, cultureCode)
         }
     }
+
+
 }
