@@ -9,6 +9,8 @@ import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.support.v7.widget.SearchView
+import android.text.TextUtils
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -20,6 +22,7 @@ import com.caucse.seoulproject.data.CultureRow
 import com.caucse.seoulproject.viewmodel.MainViewModel
 import io.reactivex.disposables.Disposable
 import io.reactivex.disposables.Disposables
+import kotlinx.android.synthetic.main.fragment_list.*
 import kotlinx.android.synthetic.main.fragment_list.view.*
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.async
@@ -96,6 +99,21 @@ class CultureListFragment : Fragment() {
                             })
                         }
                     }
+                }
+            })
+            val searchView = thisView!!.searchView
+            searchView.setOnQueryTextListener(object: SearchView.OnQueryTextListener {
+                override fun onQueryTextChange(newText: String?): Boolean {
+                    if (TextUtils.isEmpty(newText)) {
+                        Log.d(TAG, "query is empty")
+                    } else {
+                        Log.d(TAG, "query = ${newText}")
+                    }
+                    return true
+                }
+
+                override fun onQueryTextSubmit(query: String?): Boolean {
+                    return true
                 }
             })
         }
