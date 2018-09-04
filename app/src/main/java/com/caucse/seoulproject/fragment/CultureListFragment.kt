@@ -101,21 +101,6 @@ class CultureListFragment : Fragment() {
                     }
                 }
             })
-            val searchView = thisView!!.searchView
-            searchView.setOnQueryTextListener(object: SearchView.OnQueryTextListener {
-                override fun onQueryTextChange(newText: String?): Boolean {
-                    if (TextUtils.isEmpty(newText)) {
-                        Log.d(TAG, "query is empty")
-                    } else {
-                        Log.d(TAG, "query = ${newText}")
-                    }
-                    return true
-                }
-
-                override fun onQueryTextSubmit(query: String?): Boolean {
-                    return true
-                }
-            })
         }
 
         return thisView
