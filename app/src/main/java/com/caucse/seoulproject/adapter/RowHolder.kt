@@ -8,5 +8,6 @@ class RowHolder (row: View) : RecyclerView.ViewHolder(row) {
     var cardView = row.card_view
     var titleImageView = row.title_image
     var titleTitleView = row.title_title
+    var titleGcode = row.title_gcode
     var like = row.like_but
 }

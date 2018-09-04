@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.ScrollView
 import android.widget.TextView
 
 import com.caucse.seoulproject.R
@@ -21,6 +22,7 @@ import com.nhn.android.maps.NMapView
 import com.nhn.android.mapviewer.overlay.NMapResourceProvider
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import kotlinx.android.synthetic.main.fragment_info.*
 
 
 class InfoFragment : NMapFragment() {
@@ -50,6 +52,8 @@ class InfoFragment : NMapFragment() {
         var infoContent = cultureData!!.CONTENTS
         var imageView: ImageView = view.findViewById(R.id.infoImageView)
         var mMapContext:NMapContext = NMapContext(super.getActivity())
+        var scrollView: ScrollView = view.findViewById(R.id.scrollView2)
+        scrollView.smoothScrollTo(0,0)
 
         mMapContext.onCreate()
 

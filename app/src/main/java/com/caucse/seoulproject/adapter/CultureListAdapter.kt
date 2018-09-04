@@ -65,10 +65,10 @@ class CultureListAdapter(val view : RecyclerView
     override fun onBindViewHolder(holder: RowHolder, position: Int) {
         val data : CultureRow = data.get(position)
         val url = data.MAIN_IMG.toLowerCase()
-        val title = data.TITLE
 
         ImageUtil.setImage(holder.titleImageView, url)
-        holder.titleTitleView.setText(title)
+        holder.titleTitleView.setText(data.TITLE)
+        holder.titleGcode.setText(data.GCODE)
 
         val key = data.CULTCODE
         mainViewModel.getIsFavorited(context, key)
