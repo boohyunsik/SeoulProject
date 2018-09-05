@@ -66,9 +66,10 @@ class MainActivity : AppCompatActivity() {
 
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
         mainViewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
-
         fragmentManager = supportFragmentManager
-        listfragment = CultureListFragment.newInstance(fragmentManager)
+        mainViewModel.fragmentManager = fragmentManager
+
+        listfragment = CultureListFragment.newInstance()
         favoriteFragment = FavoriteFragment.newInstance()
         myInfoFragment = MyInfoFragment.newInstance()
 

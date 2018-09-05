@@ -7,42 +7,69 @@
     tools:context=".fragment.MyInfoFragment">
 
     <!-- TODO: Update blank fragment layout -->
-
-    <ImageView
-        android:id="@+id/profile_img"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
-        android:layout_gravity="center_horizontal"
-        android:paddingTop="16dp"
-        android:src="@drawable/ic_baseline_account_circle_24px"/>
-
-    <TextView
-        android:id="@+id/profile_name"
+    <android.support.v4.widget.NestedScrollView
+        android:id="@+id/myinfo_scrollView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:textSize="24dp"
-        android:text="부현식"/>
+        android:layout_height="wrap_content">
 
-    <TextView
-        android:id="@+id/profile_email"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="16dp"
-        android:text="bhs9194@nate.com"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/profile_sex"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="남성"/>
+            <ImageView
+                android:id="@+id/profile_img"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:layout_gravity="center_horizontal"
+                android:paddingTop="16dp"
+                android:src="@drawable/ic_baseline_account_circle_24px"/>
 
-    <TextView
-        android:id="@+id/profile_age"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="28세"/>
+            <TextView
+                android:id="@+id/profile_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:textSize="24dp"
+                android:text="부현식"/>
 
+            <TextView
+                android:id="@+id/profile_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="16dp"
+                android:text="bhs9194@nate.com"/>
 
+            <TextView
+                android:id="@+id/profile_sex"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="남성"/>
+
+            <TextView
+                android:id="@+id/profile_age"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="28세"/>
+
+            <TextView
+                android:id="@+id/recent_textView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:text="최근 본 문화정보"/>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/myinfo_recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="50dp"
+                android:nestedScrollingEnabled="false">
+
+            </android.support.v7.widget.RecyclerView>
+
+        </LinearLayout>
+
+    </android.support.v4.widget.NestedScrollView>
 
 </LinearLayout>

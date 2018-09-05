@@ -1,25 +1,66 @@
 package com.caucse.seoulproject.fragment
 
+import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
+import android.util.DisplayMetrics
+import android.util.Log
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 
 import com.caucse.seoulproject.R
+import com.caucse.seoulproject.adapter.RecentCardListAdapter
+import com.caucse.seoulproject.viewmodel.MainViewModel
+import kotlinx.android.synthetic.main.fragment_my_info.view.*
 
 class MyInfoFragment : Fragment() {
+    val TAG = "MyInfoFragment"
     private var listener: OnFragmentInteractionListener? = null
+    private val heights = arrayOf(500f, 950f, 1350f, 1700f, 2000f)
+    private lateinit var recentCardView: RecyclerView
+    private lateinit var mainViewModel: MainViewModel
+    private lateinit var recentRecyclerView: RecyclerView
+    private lateinit var adapter: RecentCardListAdapter
+
+    private lateinit var linearLayoutManager : LinearLayoutManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        mainViewModel = ViewModelProviders.of(activity!!).get(MainViewModel::class.java)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_my_info, container, false)
+        val view = inflater.inflate(R.layout.fragment_my_info, container, false)
+        recentRecyclerView = view.myinfo_recyclerView
+        linearLayoutManager = object: LinearLayoutManager(activity?.applicationContext) {
+            override fun canScrollVertically(): Boolean {
+                return false
+            }
+        }
+        recentRecyclerView.layoutManager= linearLayoutManager
+        adapter = RecentCardListAdapter(recentRecyclerView, mainViewModel)
+        recentRecyclerView.adapter = adapter
+
+        val recentTextView = view.recent_textView
+        if (mainViewModel.getRecentDataItemCount() == 0) {
+            recentTextView.setText("최근 본 문화정보가 없습니다.")
+        } else {
+            recentTextView.setText("최근 본 문화정보 (${mainViewModel.getRecentDataItemCount()}개)")
+        }
+        return view
+    }
+
+    override fun onResume() {
+        super.onResume()
+        adapter.notifyDataSetChanged()
+        Log.d(TAG, "queue size = ${mainViewModel.getRecentDataItemCount()}")
     }
 
     // TODO: Rename method, update argument and hook method into UI event

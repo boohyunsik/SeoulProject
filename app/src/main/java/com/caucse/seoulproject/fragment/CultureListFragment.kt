@@ -81,7 +81,7 @@ class CultureListFragment : Fragment() {
             linearLayoutManager = LinearLayoutManager(activity?.applicationContext)
             recyclerView.layoutManager= linearLayoutManager
 
-            adapter = CultureListAdapter(recyclerView, this, fm, mainViewModel, context!!)
+            adapter = CultureListAdapter(recyclerView, this, mainViewModel, context!!)
             adapter.setHasStableIds(true)
 
             recyclerView.adapter = adapter
@@ -120,8 +120,6 @@ class CultureListFragment : Fragment() {
 
     companion object {
         @JvmStatic
-        fun newInstance(fm : FragmentManager) = CultureListFragment().apply {
-            this.fm = fm
-        }
+        fun newInstance() = CultureListFragment()
     }
 }

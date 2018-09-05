@@ -4,6 +4,7 @@ import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import android.content.Context
+import android.support.v4.app.FragmentManager
 import android.support.v7.widget.RecyclerView
 import android.util.Log
 import com.caucse.seoulproject.adapter.CultureListAdapter
@@ -19,6 +20,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.coroutines.experimental.async
 import java.text.SimpleDateFormat
+import java.util.*
 
 class MainViewModel : ViewModel() {
 
@@ -27,8 +29,13 @@ class MainViewModel : ViewModel() {
     private val cultureApiHelper by lazy { CultureApiHelper() }
     private lateinit var userid: String
     private lateinit var username: String
+    private lateinit var userEmail: String
+    private lateinit var userAge: String
 
-    private var concertData : MutableLiveData<ArrayList<CultureRow>> = MutableLiveData<ArrayList<CultureRow>>()
+    private var concertData: MutableLiveData<ArrayList<CultureRow>> = MutableLiveData<ArrayList<CultureRow>>()
+    private val recentData: ArrayList<CultureRow> = ArrayList<CultureRow>()
+
+    lateinit var fragmentManager: FragmentManager
 
     var curConcert : CultureRow? = null
     init {
@@ -37,6 +44,21 @@ class MainViewModel : ViewModel() {
 
     fun isInit() : Boolean {
         return concertData.value != null
+    }
+
+    fun addRecentData(row: CultureRow) {
+        if (recentData.size > 4) {
+            recentData.removeAt(4)
+        }
+        recentData.add(0, row)
+    }
+
+    fun getRecentDataItemCount(): Int {
+        return recentData.size
+    }
+
+    fun getRecentDataItem(index: Int): CultureRow{
+        return recentData[index]
     }
 
     fun initData(context: Context): MutableLiveData<ArrayList<CultureRow>> {

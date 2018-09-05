@@ -44,15 +44,15 @@ class InfoFragment : NMapFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         cultureData = mainViewModel.curConcert
-        var view: View= inflater.inflate(R.layout.fragment_info, container, false)
-        var readView:TextView = view.findViewById(R.id.readMoreTextView)
-        var titleView:TextView = view.findViewById(R.id.titleView)
-        var mMapView:NMapView = view.findViewById(R.id.mapView)
-        var titleContent =  cultureData!!.TITLE
-        var infoContent = cultureData!!.CONTENTS
-        var imageView: ImageView = view.findViewById(R.id.infoImageView)
-        var mMapContext:NMapContext = NMapContext(super.getActivity())
-        var scrollView: ScrollView = view.findViewById(R.id.scrollView2)
+        val view: View= inflater.inflate(R.layout.fragment_info, container, false)
+        val readView:TextView = view.findViewById(R.id.readMoreTextView)
+        val titleView:TextView = view.findViewById(R.id.titleView)
+        val mMapView:NMapView = view.findViewById(R.id.mapView)
+        val titleContent =  cultureData!!.TITLE
+        val infoContent = cultureData!!.CONTENTS
+        val imageView: ImageView = view.findViewById(R.id.infoImageView)
+        val mMapContext:NMapContext = NMapContext(super.getActivity())
+        val scrollView: ScrollView = view.findViewById(R.id.scrollView2)
         scrollView.smoothScrollTo(0,0)
 
         mMapContext.onCreate()

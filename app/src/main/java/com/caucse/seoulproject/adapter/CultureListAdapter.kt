@@ -27,7 +27,6 @@ import java.lang.Exception
 
 class CultureListAdapter(val view : RecyclerView
                          , val fragment: Fragment
-                         , val fm: FragmentManager
                          , val mainViewModel: MainViewModel
                          , val context: Context) : RecyclerView.Adapter<RowHolder>() {
     private val TAG = "CultureListAdapter"
@@ -98,7 +97,8 @@ class CultureListAdapter(val view : RecyclerView
                 .subscribe {
                     Log.d(TAG, "click card view")
                     mainViewModel.curConcert = data
-                    fm.beginTransaction()
+                    mainViewModel.addRecentData(data)
+                    mainViewModel.fragmentManager.beginTransaction()
                             .addToBackStack(null)
                             .hide(fragment)
                             .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
