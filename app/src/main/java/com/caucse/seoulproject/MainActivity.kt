@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
+import android.support.v4.app.ListFragment
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.widget.FrameLayout
@@ -32,11 +33,17 @@ class MainActivity : AppCompatActivity() {
     lateinit var mainViewModel : MainViewModel
 
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
+        if ((item.itemId == R.id.navigation_home && active == listfragment) ||
+                (item.itemId == R.id.navigation_dashboard && active == favoriteFragment) ||
+                (item.itemId == R.id.navigation_notifications && active == myInfoFragment)) {
+            return@OnNavigationItemSelectedListener false
+        }
         if (fragmentManager.backStackEntryCount > 0) {
             fragmentManager.popBackStack()
         }
         when (item.itemId) {
             R.id.navigation_home -> {
+                active = listfragment
                 return@OnNavigationItemSelectedListener true
             }
             R.id.navigation_dashboard -> {

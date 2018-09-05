@@ -22,7 +22,6 @@ import kotlinx.android.synthetic.main.fragment_my_info.view.*
 class MyInfoFragment : Fragment() {
     val TAG = "MyInfoFragment"
     private var listener: OnFragmentInteractionListener? = null
-    private val heights = arrayOf(500f, 950f, 1350f, 1700f, 2000f)
     private lateinit var recentCardView: RecyclerView
     private lateinit var mainViewModel: MainViewModel
     private lateinit var recentRecyclerView: RecyclerView
