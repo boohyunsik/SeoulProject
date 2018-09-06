@@ -34,8 +34,8 @@ class CultureListAdapter(val view : RecyclerView
     private val inflater : LayoutInflater = LayoutInflater.from(view.context)
     private var data : ArrayList<CultureRow> = ArrayList<CultureRow>()
 
-    private val icFavorite = R.drawable.ic_baseline_favorite_24px
-    private val icNonFavorite = R.drawable.ic_baseline_favorite_border_24px
+    private val icFavorite = R.drawable.ic_baseline_red_heart
+    private val icNonFavorite = R.drawable.ic_baseline_black_heart
 
     init {
         Picasso.get().setIndicatorsEnabled(true)
