@@ -50,6 +50,12 @@ class MainViewModel : ViewModel() {
     }
 
     fun addRecentData(row: CultureRow) {
+        recentData.forEach {
+            if (it.CULTCODE == row.CULTCODE) {
+                return
+            }
+        }
+
         if (recentData.size > 4) {
             recentData.removeAt(4)
         }
