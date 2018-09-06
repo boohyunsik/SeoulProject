@@ -32,14 +32,17 @@ class MainViewModel : ViewModel() {
     private lateinit var userEmail: String
     private lateinit var userAge: String
 
-    private var concertData: MutableLiveData<ArrayList<CultureRow>> = MutableLiveData<ArrayList<CultureRow>>()
-    private val recentData: ArrayList<CultureRow> = ArrayList<CultureRow>()
-
+    private var concertData: MutableLiveData<ArrayList<CultureRow>> = MutableLiveData()
+    private val recentData: ArrayList<CultureRow> = ArrayList()
+    val favoriteData : MutableLiveData<HashMap<String, CultureRow>> = MutableLiveData()
+    val favoriteKeyList = MutableLiveData<ArrayList<String>>()
     lateinit var fragmentManager: FragmentManager
 
     var curConcert : CultureRow? = null
     init {
         userid = "boohyunsik"
+        favoriteData.value = HashMap()
+        favoriteKeyList.value = ArrayList()
     }
 
     fun isInit() : Boolean {
@@ -112,5 +115,22 @@ class MainViewModel : ViewModel() {
         }
     }
 
+    fun addFavoriteData(row: CultureRow) {
+        favoriteData.value!!.put(row.CULTCODE, row)
+        favoriteKeyList.value!!.add(row.CULTCODE)
+    }
 
+    fun delFavoriteData(row: CultureRow) {
+        favoriteData.value!!.remove(row.CULTCODE)
+        favoriteKeyList.value!!.forEach {
+            if (row.CULTCODE == it) {
+                favoriteKeyList.value!!.remove(it)
+            }
+        }
+    }
+
+    fun printFavoriteData() {
+        Log.d(TAG, "favorite hash map data size = ${favoriteData.value!!.size}")
+        Log.d(TAG, "favorite key data size = ${favoriteKeyList.value!!.size}")
+    }
 }

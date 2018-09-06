@@ -69,18 +69,6 @@ class CultureListAdapter(val view : RecyclerView
         holder.titleTitleView.setText(data.TITLE)
         holder.titleGcode.setText(data.GCODE)
 
-        val key = data.CULTCODE
-        mainViewModel.getIsFavorited(context, key)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-                        {
-                            holder.like.setImageResource(icFavorite)
-                        },
-                        {
-                            holder.like.setImageResource(icNonFavorite)
-                        }
-                )
         setClickListener(holder, data)
     }
 
@@ -105,32 +93,17 @@ class CultureListAdapter(val view : RecyclerView
                             .add(R.id.frame_layout, InfoFragment.newInstance(data))
                             .commit()
                 }
-
         RxView.clicks(holder.like)
                 .subscribe {
                     var key = data.CULTCODE
-                    mainViewModel.getIsFavorited(context, key)
-                            .subscribeOn(Schedulers.io())
-                            .observeOn(AndroidSchedulers.mainThread())
-                            .subscribe(
-                                    {
-                                        Log.d(TAG, "doOnSuccess -> There is a data")
-                                        mainViewModel.delFavorite(context, key)
-                                        holder.like.setImageResource(icNonFavorite)
-                                    },
-                                    {
-                                        Log.d(TAG, "doOnError -> There is no data")
-                                        mainViewModel.setFavorite(context, key)
-                                        holder.like.setImageResource(icFavorite)
-                                    }
-                            )
+                    if (mainViewModel.favoriteData.value?.containsKey(key)!!) {
+                        mainViewModel.delFavoriteData(data)
+                        holder.like.setImageResource(icNonFavorite)
+                    } else {
+                        mainViewModel.addFavoriteData(data)
+                        holder.like.setImageResource(icFavorite)
+                    }
+                    mainViewModel.printFavoriteData()
                 }
-
-    }
-
-    fun parseUrl(url: String) : String {
-        var ret: String = url.substring(0, url.length-3)
-        val format: String = url.substring(url.length-3).toUpperCase()
-        return ret + format
     }
 }

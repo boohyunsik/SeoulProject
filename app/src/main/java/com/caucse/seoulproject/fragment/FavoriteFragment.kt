@@ -5,12 +5,17 @@ import android.content.Context
 import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 
 import com.caucse.seoulproject.R
+import com.caucse.seoulproject.adapter.FavoriteListAdapter
 import com.caucse.seoulproject.viewmodel.MainViewModel
+import kotlinx.android.synthetic.main.fragment_favorite.view.*
+import kotlinx.android.synthetic.main.fragment_my_info.view.*
 
 class FavoriteFragment : Fragment() {
 
@@ -19,6 +24,9 @@ class FavoriteFragment : Fragment() {
     private val TAG = "FavoriteFragment"
     private lateinit var mainViewModel: MainViewModel
 
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var adapter: FavoriteListAdapter
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mainViewModel = ViewModelProviders.of(activity!!).get(MainViewModel::class.java)
@@ -26,7 +34,18 @@ class FavoriteFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_favorite, container, false)
+        val view = inflater.inflate(R.layout.fragment_favorite, container, false)
+        val linearLayoutManager = LinearLayoutManager(activity?.applicationContext)
+        recyclerView = view.favorite_recyclerView
+        recyclerView.layoutManager = linearLayoutManager
+        adapter = FavoriteListAdapter(mainViewModel, recyclerView)
+        recyclerView.adapter = adapter
+        return view
+    }
+
+    override fun onResume() {
+        super.onResume()
+        adapter.notifyDataSetChanged()
     }
 
     // TODO: Rename method, update argument and hook method into UI event

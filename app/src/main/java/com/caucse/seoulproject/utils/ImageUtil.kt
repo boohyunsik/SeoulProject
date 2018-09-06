@@ -9,13 +9,14 @@ object ImageUtil {
     val TAG = "ImageUtil"
 
     fun setImage(imageView: ImageView, url: String) {
-        Picasso.get().load(url)
+        val urlLowerCase = url.toLowerCase()
+        Picasso.get().load(urlLowerCase)
                 .fit()
                 .into(imageView, object: Callback {
                     override fun onSuccess() {}
 
                     override fun onError(e: Exception?) {
-                        Picasso.get().load(UrlParser.parseUrl(url))
+                        Picasso.get().load(UrlParser.parseUrl(urlLowerCase))
                                 .fit()
                                 .into(imageView)
                     }
