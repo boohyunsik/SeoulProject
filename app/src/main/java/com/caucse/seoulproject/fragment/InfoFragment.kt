@@ -8,9 +8,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.webkit.WebView
 import android.widget.ImageView
-import android.widget.ScrollView
 import android.widget.TextView
 
 import com.caucse.seoulproject.R
@@ -18,13 +16,15 @@ import com.caucse.seoulproject.data.CultureRow
 import com.caucse.seoulproject.helper.NSearchApiHelper
 import com.caucse.seoulproject.utils.ImageUtil
 import com.caucse.seoulproject.viewmodel.MainViewModel
-import com.google.android.gms.maps.MapView
 import com.nhn.android.maps.NMapContext
+import com.nhn.android.maps.NMapOverlay
 import com.nhn.android.maps.NMapView
+import com.nhn.android.maps.overlay.NMapPOIdata
+import com.nhn.android.mapviewer.overlay.NMapOverlayManager
+import com.nhn.android.mapviewer.overlay.NMapPOIdataOverlay
 import com.nhn.android.mapviewer.overlay.NMapResourceProvider
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import kotlinx.android.synthetic.main.fragment_info.*
 
 
 class InfoFragment : NMapFragment() {
@@ -33,11 +33,14 @@ class InfoFragment : NMapFragment() {
     private var listener: OnFragmentInteractionListener? = null
     private lateinit var mMapView: NMapView
     private lateinit var mMapContext: NMapContext
-
     private var cultureData : CultureRow? = null
     private lateinit var mainViewModel: MainViewModel
 
-    private lateinit var nMapResourceProvider: NMapResourceProvider
+    private lateinit var mMapResourceProvider: NMapResourceProvider
+    private lateinit var mMapViewerResourceProvider: NMapViewerResourceProvider
+    private lateinit var mOverlayManager: NMapOverlayManager
+    private lateinit var poiData: NMapPOIdata
+    private lateinit var onPOIdataStateChangeListener:NMapPOIdataOverlay.OnStateChangeListener
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mainViewModel = ViewModelProviders.of(activity!!).get(MainViewModel::class.java)
@@ -46,23 +49,17 @@ class InfoFragment : NMapFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         cultureData = mainViewModel.curConcert
-        val view: View= inflater.inflate(R.layout.fragment_info, container, false)
-        //val readView:TextView = view.findViewById(R.id.readMoreTextView)
-        val titleView:TextView = view.findViewById(R.id.titleView)
-        val mMapView:NMapView = view.findViewById(R.id.mapView)
-        val titleContent =  cultureData!!.TITLE
-        val infoContent = cultureData!!.CONTENTS
-        val imageView: ImageView = view.findViewById(R.id.infoImageView)
-        val mMapContext:NMapContext = NMapContext(super.getActivity())
-        val scrollView: ScrollView = view.findViewById(R.id.scrollView2)
-        val mWebView: WebView = view.findViewById(R.id.webView)
-        scrollView.smoothScrollTo(0,0)
-
+        var view: View= inflater.inflate(R.layout.fragment_info, container, false)
+        var titleView:TextView = view.findViewById(R.id.titleView)
+        var mMapView:NMapView = view.findViewById(R.id.mapView)
+        var titleContent =  cultureData!!.TITLE
+        var infoContent = cultureData!!.CONTENTS
+        var imageView: ImageView = view.findViewById(R.id.infoImageView)
+        var mMapContext:NMapContext = NMapContext(super.getActivity())
+        var onPOIStateChangeListener:NMapPOIdataOverlay.OnStateChangeListener
         mMapContext.onCreate()
 
         titleView.setText(titleContent)
-        //readView.setText(infoContent)
-        mWebView.loadData(infoContent,"text/html","UTF-8")
         val url = cultureData!!.MAIN_IMG.toLowerCase()
         ImageUtil.setImage(imageView, url)
 
@@ -73,7 +70,7 @@ class InfoFragment : NMapFragment() {
         mMapView.isFocusableInTouchMode = true
         mMapView.requestFocus()
 
-        mMapContext.setupMapView(mMapView)
+
 
         val query = cultureData!!.PLACE.split(" ").get(0)
         NSearchApiHelper.getData(context, query)
@@ -88,6 +85,18 @@ class InfoFragment : NMapFragment() {
                         {error -> Log.d(TAG, "error -> " + error.message)},
                         {Log.d(TAG, "검색어 = ${query}")}
                 )
+
+        mMapContext.setupMapView(mMapView)
+        var mMapViewerResourceProvider:NMapViewerResourceProvider = NMapViewerResourceProvider(activity)
+        var mOverlayManager:NMapOverlayManager = NMapOverlayManager(activity,mMapView,mMapViewerResourceProvider)
+        var markerId =NMapPOIflagType.PIN
+        var poiData:NMapPOIdata = NMapPOIdata(2,mMapViewerResourceProvider)
+        poiData.beginPOIdata(1)
+        poiData.addPOIitem(127.061,37.51,"예시",markerId,0)
+        poiData.endPOIdata()
+        var poiDataOverlay:NMapPOIdataOverlay = mOverlayManager.createPOIdataOverlay(poiData,null)
+        poiDataOverlay.showAllPOIdata(0)
+        poiDataOverlay.onStateChangeListener
 
 //        NMapApiHelper().getData(context, "강동아트센터")
 //                .observeOn(AndroidSchedulers.mainThread())
