@@ -7,4 +7,5 @@
     <color name="infocolor">#b5ffffff</color>
     <color name="background">#9cf7f7f7</color>
     <color name="darkBrown">#3b2301</color>
+    <color name="black">#000</color>
 </resources>
