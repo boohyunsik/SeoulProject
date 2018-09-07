@@ -8,7 +8,7 @@
     <android.support.v7.widget.CardView
         android:id="@+id/card_view"
         card:cardCornerRadius="5dp"
-        android:layout_margin="8dp"
+
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -22,7 +22,15 @@
                 android:scaleType="fitXY"
                 android:layout_width="match_parent"
                 android:layout_height="350dp"
-                android:paddingRight="5dp"/>
+                android:padding="5dp"/>
+
+            <TextView
+                android:id="@+id/title_gcode"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="5dp"
+                android:paddingLeft="5dp"
+                android:textSize="16dp"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -33,6 +41,7 @@
                 <TextView
                     android:id="@+id/title_title"
                     android:layout_width="wrap_content"
+
                     android:layout_height="wrap_content"
                     android:textColor="#000000"
                     android:textSize="16dp"
@@ -46,7 +55,7 @@
                     android:layout_width="25dp"
                     android:layout_height="25dp"
                     android:layout_margin="8dp"
-                    app:srcCompat="@drawable/ic_baseline_favorite_border_24px"/>
+                    app:srcCompat="@drawable/ic_baseline_black_heart"/>
 
             </LinearLayout>
 

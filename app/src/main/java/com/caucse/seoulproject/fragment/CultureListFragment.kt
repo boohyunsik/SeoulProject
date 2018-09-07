@@ -19,6 +19,7 @@ import android.view.ViewGroup
 import com.caucse.seoulproject.R
 import com.caucse.seoulproject.adapter.CultureListAdapter
 import com.caucse.seoulproject.data.CultureRow
+import com.caucse.seoulproject.fragment.`interface`.IScrollListener
 import com.caucse.seoulproject.viewmodel.MainViewModel
 import io.reactivex.disposables.Disposable
 import io.reactivex.disposables.Disposables
@@ -67,7 +68,6 @@ class CultureListFragment : Fragment() {
         bundle = Bundle()
         var state: Parcelable = recyclerView.layoutManager.onSaveInstanceState()
         bundle!!.putParcelable(KEY_RECYCLER_STATE, state)
-
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -81,7 +81,7 @@ class CultureListFragment : Fragment() {
             linearLayoutManager = LinearLayoutManager(activity?.applicationContext)
             recyclerView.layoutManager= linearLayoutManager
 
-            adapter = CultureListAdapter(recyclerView, this, fm, mainViewModel, context!!)
+            adapter = CultureListAdapter(recyclerView, this, mainViewModel, context!!)
             adapter.setHasStableIds(true)
 
             recyclerView.adapter = adapter
@@ -90,32 +90,7 @@ class CultureListFragment : Fragment() {
                 livedata -> adapter.initData(livedata!!.toList())
             })
 
-            recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-                override fun onScrollStateChanged(recyclerView: RecyclerView, newState : Int) {
-                    if (newState == RecyclerView.SCROLL_STATE_IDLE && !recyclerView.canScrollVertically(1)) {
-                        async(UI) {
-                            mainViewModel.addData(context!!).observe(owner, Observer<ArrayList<CultureRow>> {
-                                livedata -> adapter.addData(livedata!!.toList())
-                            })
-                        }
-                    }
-                }
-            })
-            val searchView = thisView!!.searchView
-            searchView.setOnQueryTextListener(object: SearchView.OnQueryTextListener {
-                override fun onQueryTextChange(newText: String?): Boolean {
-                    if (TextUtils.isEmpty(newText)) {
-                        Log.d(TAG, "query is empty")
-                    } else {
-                        Log.d(TAG, "query = ${newText}")
-                    }
-                    return true
-                }
-
-                override fun onQueryTextSubmit(query: String?): Boolean {
-                    return true
-                }
-            })
+            recyclerView.addOnScrollListener(IScrollListener(context!!, mainViewModel, adapter, owner))
         }
 
         return thisView
@@ -135,8 +110,6 @@ class CultureListFragment : Fragment() {
 
     companion object {
         @JvmStatic
-        fun newInstance(fm : FragmentManager) = CultureListFragment().apply {
-            this.fm = fm
-        }
+        fun newInstance() = CultureListFragment()
     }
 }

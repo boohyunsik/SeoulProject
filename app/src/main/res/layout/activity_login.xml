@@ -31,11 +31,10 @@
         android:gravity="center"
         android:orientation="horizontal">
 
-        <Button
-            android:id="@+id/login_button"
+        <com.nhn.android.naverlogin.ui.view.OAuthLoginButton
+            android:id="@+id/naverLogin"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Login" />
+            android:layout_height="50dp" />
 
     </LinearLayout>
 
