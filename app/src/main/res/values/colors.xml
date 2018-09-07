@@ -4,8 +4,7 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
     <color name="white">#ffffff</color>
-    <color name="infocolor">#b5ffffff</color>
-    <color name="background">#96f7f7f7</color>
+    <color name="infocolor">#dc7fba43</color>
+    <color name="culturecolor">#daffb043</color>
     <color name="darkBrown">#3b2301</color>
-    <color name="black">#000</color>
 </resources>
