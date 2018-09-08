@@ -21,8 +21,8 @@ class RecentCardListAdapter(val view : RecyclerView ,val mainViewModel: MainView
     override fun onBindViewHolder(holder: RowHolder, position: Int) {
         Log.d(TAG, "onBindViewHolder()")
         val data = mainViewModel.getRecentDataItem(position)
-        holder.titleTitleView.setText(data.TITLE)
-        holder.titleGcode.setText(data.GCODE)
+        holder.titleTitleView.text = data.TITLE
+        holder.titleGcode.text = data.GCODE
         ImageUtil.setImage(holder.titleImageView, data.MAIN_IMG.toLowerCase())
     }
 

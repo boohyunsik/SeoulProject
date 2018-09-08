@@ -19,9 +19,10 @@
 
             <ImageView
                 android:id="@+id/title_image"
-                android:scaleType="fitXY"
                 android:layout_width="match_parent"
-                android:layout_height="350dp"
+                android:layout_height="wrap_content"
+                android:scaleType="fitXY"
+                android:adjustViewBounds="true"
                 android:padding="5dp"/>
 
             <TextView

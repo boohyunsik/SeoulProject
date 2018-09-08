@@ -8,7 +8,7 @@ import com.caucse.seoulproject.R
 import com.caucse.seoulproject.utils.ImageUtil
 import com.caucse.seoulproject.viewmodel.MainViewModel
 
-class FavoriteListAdapter(val mainViewModel: MainViewModel
+class FavoriteListAdapter(private val mainViewModel: MainViewModel
                             , view: RecyclerView): RecyclerView.Adapter<RowHolder>() {
     val TAG = FavoriteListAdapter::class.java.simpleName
     private val inflater : LayoutInflater = LayoutInflater.from(view.context)

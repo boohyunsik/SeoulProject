@@ -71,7 +71,7 @@ class MainViewModel : ViewModel() {
     }
 
     fun initData(context: Context): MutableLiveData<ArrayList<CultureRow>> {
-        var data = cultureApiHelper.getData(context, 0, 3).SearchConcertDetailService.row
+        var data = cultureApiHelper.getData(context, 0, 10).SearchConcertDetailService.row
         concertData.value = data
         Log.d(TAG, "data size = ${concertData.value?.size}")
         return concertData
@@ -79,7 +79,7 @@ class MainViewModel : ViewModel() {
 
     fun addData(context: Context): MutableLiveData<ArrayList<CultureRow>> {
         val endIndex: Int = concertData.value!!.size
-        var data = cultureApiHelper.getData(context,endIndex+1, endIndex+3).SearchConcertDetailService.row
+        var data = cultureApiHelper.getData(context,endIndex+1, endIndex+10).SearchConcertDetailService.row
         concertData.value!!.addAll(data)
 
         val ret: MutableLiveData<ArrayList<CultureRow>> = MutableLiveData<ArrayList<CultureRow>>()

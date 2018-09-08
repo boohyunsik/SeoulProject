@@ -7,14 +7,13 @@ import android.os.Bundle
 import android.os.Parcelable
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
-import android.support.v7.widget.SearchView
+import android.support.v7.widget.*
 import android.text.TextUtils
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.GridLayout
 
 import com.caucse.seoulproject.R
 import com.caucse.seoulproject.adapter.CultureListAdapter
@@ -57,10 +56,6 @@ class CultureListFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         Log.d(TAG, "onResume()")
-        if (bundle != null) {
-            var state: Parcelable = bundle!!.getParcelable(KEY_RECYCLER_STATE)
-            recyclerView.layoutManager.onRestoreInstanceState(state)
-        }
     }
 
     override fun onPause() {
@@ -77,9 +72,6 @@ class CultureListFragment : Fragment() {
         if (thisView == null) {
             thisView = inflater.inflate(R.layout.fragment_list, container, false)
             recyclerView = thisView!!.listview
-
-            linearLayoutManager = LinearLayoutManager(activity?.applicationContext)
-            recyclerView.layoutManager= linearLayoutManager
 
             adapter = CultureListAdapter(recyclerView, this, mainViewModel, context!!)
             adapter.setHasStableIds(true)
