@@ -54,11 +54,11 @@
                 tools:layout_editor_absoluteY="300dp">
 
 
-
                 <WebView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:id="@+id/infoWebView">
+                    android:id="@+id/infoWebView"
+                    android:padding="5dp">
                 </WebView>
             </ScrollView>
         </LinearLayout>
