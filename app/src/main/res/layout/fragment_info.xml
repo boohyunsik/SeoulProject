@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragment.InfoFragment">
+    tools:context=".fragment.InfoFragment"
+    android:orientation="vertical">
 
     <!-- TODO: Update blank fragment layout -->
 
 
-    <ScrollView
+   <!-- <ScrollView
         android:id="@+id/scrollView2"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -18,7 +19,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">>
+        app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -55,44 +56,53 @@
                 android:focusable="false"
                 tools:layout_editor_absoluteY="300dp">
 
-                <!--<com.borjabravo.readmoretextview.ReadMoreTextView-->
-                    <!--android:id="@+id/readMoreTextView"-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:focusable="false"-->
-                    <!--android:text="TextView"-->
-                    <!--app:trimCollapsedText="원래대로"-->
-                    <!--app:trimExpandedText="더 보기"-->
-                    <!--app:trimLength="20"-->
-                    <!--app:trimMode="trimModeLength" />-->
+                &lt;!&ndash;<com.borjabravo.readmoretextview.ReadMoreTextView&ndash;&gt;
+                    &lt;!&ndash;android:id="@+id/readMoreTextView"&ndash;&gt;
+                    &lt;!&ndash;android:layout_width="match_parent"&ndash;&gt;
+                    &lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;
+                    &lt;!&ndash;android:focusable="false"&ndash;&gt;
+                    &lt;!&ndash;android:text="TextView"&ndash;&gt;
+                    &lt;!&ndash;app:trimCollapsedText="원래대로"&ndash;&gt;
+                    &lt;!&ndash;app:trimExpandedText="더 보기"&ndash;&gt;
+                    &lt;!&ndash;app:trimLength="20"&ndash;&gt;
+                    &lt;!&ndash;app:trimMode="trimModeLength" />&ndash;&gt;
 
                 <WebView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:id="@+id/webView">
                 </WebView>
-            </ScrollView>
+            </ScrollView>-->
 
-            <LinearLayout
-                android:id="@+id/linearLayout"
-                android:layout_width="match_parent"
-                android:layout_height="300dp"
-                android:layout_margin="8dp"
-                android:orientation="vertical"
-                android:focusable="false"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/infoImageView">
-                <com.nhn.android.maps.NMapView
-                    android:id="@+id/mapView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:focusable="false"/>
-            </LinearLayout>
-        </LinearLayout>
-    </ScrollView>
+            <!--<LinearLayout-->
+                <!--android:id="@+id/linearLayout"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="300dp"-->
+                <!--android:layout_margin="8dp"-->
+                <!--android:orientation="vertical"-->
+                <!--android:focusable="false"-->
+                <!--app:layout_constraintBottom_toBottomOf="parent"-->
+                <!--app:layout_constraintEnd_toEndOf="parent"-->
+                <!--app:layout_constraintHorizontal_bias="0.0"-->
+                <!--app:layout_constraintStart_toStartOf="parent"-->
+                <!--app:layout_constraintTop_toBottomOf="@+id/infoImageView">-->
+                <!--<com.nhn.android.maps.NMapView-->
+                    <!--android:id="@+id/mapView"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="match_parent"-->
+                    <!--android:focusable="false"/>-->
+            <!--</LinearLayout>-->
+        <!--</LinearLayout>-->
+    <!--</ScrollView>-->
 
 
-</android.support.constraint.ConstraintLayout>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/pager"
+        android:requiresFadingEdge="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </android.support.v4.view.ViewPager>
+
+</LinearLayout>

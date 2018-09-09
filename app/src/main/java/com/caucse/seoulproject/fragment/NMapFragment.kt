@@ -39,7 +39,7 @@ open class NMapFragment : Fragment() {
      */
     private fun findMapView(v: View?): NMapView? {
 
-        if (v !is ViewGroup) {
+        /*if (v !is ViewGroup) {
             return null
         }
 
@@ -56,7 +56,7 @@ open class NMapFragment : Fragment() {
             if (mapView != null) {
                 return mapView
             }
-        }
+        }*/
         return null
     }
 
@@ -65,9 +65,9 @@ open class NMapFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        mMapContext = NMapContext(super.getActivity()!!)
+        //mMapContext = NMapContext(super.getActivity()!!)
 
-        mMapContext!!.onCreate()
+        //mMapContext!!.onCreate()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -80,34 +80,34 @@ open class NMapFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
 
         // Fragment에 포함된 NMapView 객체 찾기
-        val mapView = findMapView(super.getView())
-                ?: throw IllegalArgumentException("NMapFragment dose not have an instance of NMapView.")
+        //val mapView = findMapView(super.getView())
+        //        ?: throw IllegalArgumentException("NMapFragment dose not have an instance of NMapView.")
 
         // NMapActivity를 상속하지 않는 경우에는 NMapView 객체 생성후 반드시 setupMapView()를 호출해야함.
-        mMapContext!!.setupMapView(mapView)
+        //mMapContext!!.setupMapView(mapView)
     }
 
     override fun onStart() {
         super.onStart()
 
-        mMapContext!!.onStart()
+        //mMapContext!!.onStart()
     }
 
     override fun onResume() {
         super.onResume()
 
-        mMapContext!!.onResume()
+        //mMapContext!!.onResume()
     }
 
     override fun onPause() {
         super.onPause()
 
-        mMapContext!!.onPause()
+        //mMapContext!!.onPause()
     }
 
     override fun onStop() {
 
-        mMapContext!!.onStop()
+        //mMapContext!!.onStop()
 
         super.onStop()
     }
@@ -117,7 +117,7 @@ open class NMapFragment : Fragment() {
     }
 
     override fun onDestroy() {
-        mMapContext!!.onDestroy()
+       // mMapContext!!.onDestroy()
 
         super.onDestroy()
     }

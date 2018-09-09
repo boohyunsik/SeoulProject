@@ -4,10 +4,15 @@ import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.net.Uri
 import android.os.Bundle
+import android.support.v4.app.Fragment
+import android.support.v4.app.FragmentManager
+import android.support.v4.view.PagerAdapter
+import android.support.v4.view.ViewPager
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 
@@ -33,37 +38,47 @@ class InfoFragment : NMapFragment() {
     private var listener: OnFragmentInteractionListener? = null
     private lateinit var mMapView: NMapView
     private lateinit var mMapContext: NMapContext
-    private var cultureData : CultureRow? = null
+   // private var cultureData : CultureRow? = null
     private lateinit var mainViewModel: MainViewModel
 
-    private lateinit var mMapResourceProvider: NMapResourceProvider
-    private lateinit var mMapViewerResourceProvider: NMapViewerResourceProvider
-    private lateinit var mOverlayManager: NMapOverlayManager
-    private lateinit var poiData: NMapPOIdata
-    private lateinit var onPOIdataStateChangeListener:NMapPOIdataOverlay.OnStateChangeListener
+//    private lateinit var mMapResourceProvider: NMapResourceProvider
+//    private lateinit var mMapViewerResourceProvider: NMapViewerResourceProvider
+//    private lateinit var mOverlayManager: NMapOverlayManager
+//    private lateinit var poiData: NMapPOIdata
+//    private lateinit var onPOIdataStateChangeListener:NMapPOIdataOverlay.OnStateChangeListener
+
+    lateinit var pager : ViewPager
+    //lateinit var mpager : PagerAdapter
+
+    private val adapter by lazy{ com.caucse.seoulproject.adapter.PagerAdapter(activity!!.supportFragmentManager) }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        mainViewModel = ViewModelProviders.of(activity!!).get(MainViewModel::class.java)
+        //mainViewModel = ViewModelProviders.of(activity!!).get(MainViewModel::class.java)
+
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        cultureData = mainViewModel.curConcert
+       ///cultureData = mainViewModel.curConcert
         var view: View= inflater.inflate(R.layout.fragment_info, container, false)
-        var titleView:TextView = view.findViewById(R.id.titleView)
+        pager = view.findViewById(R.id.pager)
+        pager.setCurrentItem(0)
+        pager.adapter = InfoFragment@adapter
+        /* var titleView:TextView = view.findViewById(R.id.titleView)
         var mMapView:NMapView = view.findViewById(R.id.mapView)
         var titleContent =  cultureData!!.TITLE
         var infoContent = cultureData!!.CONTENTS
         var imageView: ImageView = view.findViewById(R.id.infoImageView)
         var mMapContext:NMapContext = NMapContext(super.getActivity())
-        var onPOIStateChangeListener:NMapPOIdataOverlay.OnStateChangeListener
-        mMapContext.onCreate()
+        var onPOIStateChangeListener:NMap
+        POIdataOverlay.OnStateChangeListener
+        mMapContext.onCreate()*/
 
-        titleView.setText(titleContent)
-        val url = cultureData!!.MAIN_IMG.toLowerCase()
-        ImageUtil.setImage(imageView, url)
 
-        mMapView.setClientId(getString(R.string.naver_client_key))
+
+
+       /* mMapView.setClientId(getString(R.string.naver_client_key))
         mMapView.isClickable = true
         mMapView.isEnabled = true
         mMapView.isFocusable = true
@@ -105,7 +120,7 @@ class InfoFragment : NMapFragment() {
 //                        {result -> Log.d(TAG, result)},
 //                        {error -> Log.d(TAG, error.message)},
 //                        {Log.d(TAG, "completed")}
-//                )
+//                )*/
 
         return view
     }
@@ -141,7 +156,8 @@ class InfoFragment : NMapFragment() {
     companion object {
         @JvmStatic
         fun newInstance(data : CultureRow) = InfoFragment().apply {
-            this.cultureData = data
+            //this.cultureData = data
         }
     }
+
 }
