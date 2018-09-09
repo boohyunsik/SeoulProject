@@ -3,12 +3,22 @@ package com.caucse.seoulproject.adapter
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
+import android.support.v4.app.FragmentStatePagerAdapter
+import android.util.Log
+import android.view.ViewGroup
 import com.caucse.seoulproject.fragment.InfoFragmentInfo
 import com.caucse.seoulproject.fragment.InfoFragmentMap
 import com.caucse.seoulproject.fragment.InfoFragmentReview
 
-class PagerAdapter(fm : FragmentManager) : FragmentPagerAdapter(fm){
+class InfoPagerAdapter(fm : FragmentManager) : FragmentStatePagerAdapter(fm){
+    private val TAG = this::class.java.simpleName
+
+    init {
+        Log.d(TAG, "init()")
+    }
+
     override fun getItem(position: Int): Fragment? {
+        Log.d(TAG, "$position")
         return when (position){
             0 -> InfoFragmentInfo()
             1 -> InfoFragmentMap()

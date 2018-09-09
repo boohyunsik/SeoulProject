@@ -30,15 +30,15 @@ import com.caucse.seoulproject.viewmodel.MainViewModel
  *
  */
 class InfoFragmentInfo : Fragment() {
+    private val TAG = this::class.java.simpleName
     private var cultureData : CultureRow? = null
     private lateinit var mainViewModel: MainViewModel
 
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        Log.d(TAG, "onCreateView()")
         mainViewModel = ViewModelProviders.of(activity!!).get(MainViewModel::class.java)
         cultureData = mainViewModel.curConcert
-        var view: View= inflater.inflate(R.layout.fragment_info_fragment_info
-                , container, false)
+        var view: View= inflater.inflate(R.layout.fragment_info_fragment_info, container, false)
         var titleView : TextView = view.findViewById(R.id.infoTitleView)
         var titleContent =  cultureData!!.TITLE
         var infoContent = cultureData!!.CONTENTS
@@ -50,7 +50,6 @@ class InfoFragmentInfo : Fragment() {
         val url = cultureData!!.MAIN_IMG.toLowerCase()
         ImageUtil.setImage(imageView, url)
 
-
         val settings = myWebView.settings
         settings.javaScriptEnabled = true
         settings.domStorageEnabled = true
@@ -58,6 +57,11 @@ class InfoFragmentInfo : Fragment() {
         myWebView.loadData(infoContent,"text/html","utf-8")
 
         return view
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.d(TAG, "onResume()")
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -71,8 +75,7 @@ class InfoFragmentInfo : Fragment() {
 
     companion object {
         @JvmStatic
-        fun newInstance(data : CultureRow) = InfoFragmentInfo().apply {
-            this.cultureData = data
+        fun newInstance() = InfoFragmentInfo().apply {
         }
     }
 }

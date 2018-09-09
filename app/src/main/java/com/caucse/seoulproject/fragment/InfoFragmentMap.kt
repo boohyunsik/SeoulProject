@@ -4,6 +4,7 @@ import android.content.Context
 import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,12 +24,9 @@ import com.caucse.seoulproject.R
  *
  */
 class InfoFragmentMap : Fragment() {
-    // TODO: Rename and change types of parameters
+    val TAG = this::class.java.simpleName
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        Log.d(TAG, "onCreateView()")
         return inflater.inflate(R.layout.fragment_info_fragment_map, container, false)
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
     }
 }
