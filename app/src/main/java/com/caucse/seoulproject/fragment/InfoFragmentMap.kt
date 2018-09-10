@@ -51,23 +51,10 @@ class InfoFragmentMap : NMapFragment(), NMapView.OnMapStateChangeListener {
         cultureData = mainViewModel.curConcert
 
         nMapView = view.naver_mapView
-        nMapContext.setupMapView(nMapView)
-        return view
-    }
-
-    override fun onStart() {
-        super.onStart()
-        Log.d(TAG, "onStart() -> ${nMapView}")
         nMapView.setClientId(getString(R.string.naver_client_key))
-        nMapView.isClickable = true
-        nMapView.isEnabled = true
-        nMapView.isFocusable = true
-        nMapView.isFocusableInTouchMode = true
-        nMapView.requestFocus()
+        nMapContext.setupMapView(nMapView)
 
-        nMapView.setOnMapStateChangeListener(this)
-
-        val query = "02-" + cultureData!!.INQUIRY
+        val query = "02-" + cultureData!!.PLACE
         NSearchApiHelper.getData(context, query)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
@@ -81,6 +68,19 @@ class InfoFragmentMap : NMapFragment(), NMapView.OnMapStateChangeListener {
                         {error -> Log.d(TAG, "error -> " + error.message)},
                         {Log.d(TAG, "검색어 = ${query}")}
                 )
+        return view
+    }
+
+    override fun onStart() {
+        super.onStart()
+        nMapContext.onStart()
+        Log.d(TAG, "onStart() -> ${nMapView}")
+        nMapView.isClickable = true
+        nMapView.isEnabled = true
+        nMapView.isFocusable = true
+        nMapView.isFocusableInTouchMode = true
+        nMapView.displayZoomControls(true)
+        nMapView.requestFocus()
 
         nMapView.setBuiltInZoomControls(true, null)
         nMapView.setOnMapStateChangeListener(this)
@@ -90,22 +90,23 @@ class InfoFragmentMap : NMapFragment(), NMapView.OnMapStateChangeListener {
     }
 
     fun moveMapCenter(x: Int, y: Int) {
+        Log.d(TAG, "moveMapCenter($x, $y)")
         val katec = GeoTransPoint(x.toDouble(), y.toDouble())
         val oGeo = GeoTrans.convert(GeoTrans.KATEC, GeoTrans.GEO, katec)
         val lat: Double = oGeo.getY()
         val lng: Double = oGeo.getX()
         Log.d(TAG, "lat = ${lat}, long = ${lng}")
-        val currentPoint: NGeoPoint = NGeoPoint(lat, lng)
-        nMapController.setMapCenter(currentPoint)
+        val currentPoint = NGeoPoint(lat, lng)
+        nMapController.mapCenter = currentPoint
 
-        val poiData: NMapPOIdata = NMapPOIdata(2, nMapViewerResourceProvider)
+        val poiData = NMapPOIdata(2, nMapViewerResourceProvider)
         poiData.beginPOIdata(1)
         poiData.addPOIitem(lng, lat,"example", NMapPOIflagType.PIN, 0)
         poiData.endPOIdata()
 
         val poiDataOverlay: NMapPOIdataOverlay = nMapOverlayManager.createPOIdataOverlay(poiData, null)
         poiDataOverlay.showAllPOIdata(0)
-        poiDataOverlay.setOnStateChangeListener(IOnStateChangeListener())
+        poiDataOverlay.onStateChangeListener = IOnStateChangeListener()
     }
 
     override fun onAnimationStateChange(p0: NMapView?, p1: Int, p2: Int) {
@@ -130,5 +131,29 @@ class InfoFragmentMap : NMapFragment(), NMapView.OnMapStateChangeListener {
 
     override fun onZoomLevelChange(p0: NMapView?, p1: Int) {
         Log.d(TAG, "onZoomLevelChange()")
+    }
+
+    override fun onResume() {
+        Log.d(TAG, "onResume()")
+        super.onResume()
+        nMapContext.onResume()
+    }
+
+    override fun onPause() {
+        Log.d(TAG, "onPause()")
+        super.onPause()
+        nMapContext.onPause()
+    }
+
+    override fun onStop() {
+        Log.d(TAG, "onStop()")
+        super.onStop()
+        nMapContext.onStop()
+    }
+
+    override fun onDestroy() {
+        Log.d(TAG, "onDestroy()")
+        nMapContext.onDestroy()
+        super.onDestroy()
     }
 }
