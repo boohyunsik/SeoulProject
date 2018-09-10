@@ -18,17 +18,6 @@ import com.caucse.seoulproject.data.CultureRow
 import com.caucse.seoulproject.utils.ImageUtil
 import com.caucse.seoulproject.viewmodel.MainViewModel
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-/**
- * A simple [Fragment] subclass.
- * Activities that contain this fragment must implement the
- * [InfoFragmentInfo.OnFragmentInteractionListener] interface
- * to handle interaction events.
- * Use the [InfoFragmentInfo.newInstance] factory method to
- * create an instance of this fragment.
- *
- */
 class InfoFragmentInfo : Fragment() {
     private val TAG = this::class.java.simpleName
     private var cultureData : CultureRow? = null
@@ -36,9 +25,9 @@ class InfoFragmentInfo : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         Log.d(TAG, "onCreateView()")
+        var view: View = inflater.inflate(R.layout.fragment_info_fragment_info, container, false)
         mainViewModel = ViewModelProviders.of(activity!!).get(MainViewModel::class.java)
         cultureData = mainViewModel.curConcert
-        var view: View= inflater.inflate(R.layout.fragment_info_fragment_info, container, false)
         var titleView : TextView = view.findViewById(R.id.infoTitleView)
         var titleContent =  cultureData!!.TITLE
         var infoContent = cultureData!!.CONTENTS
