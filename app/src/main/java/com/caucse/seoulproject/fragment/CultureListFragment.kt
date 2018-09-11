@@ -58,18 +58,12 @@ class CultureListFragment : Fragment() {
         Log.d(TAG, "onResume()")
     }
 
-    override fun onPause() {
-        super.onPause()
-        bundle = Bundle()
-        var state: Parcelable = recyclerView.layoutManager.onSaveInstanceState()
-        bundle!!.putParcelable(KEY_RECYCLER_STATE, state)
-    }
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         Log.d(TAG, "onCreateView()")
 
         if (thisView == null) {
+            Log.d(TAG, "thisView == null")
             thisView = inflater.inflate(R.layout.fragment_list, container, false)
             recyclerView = thisView!!.listview
 
@@ -83,6 +77,7 @@ class CultureListFragment : Fragment() {
             })
 
             recyclerView.addOnScrollListener(IScrollListener(context!!, mainViewModel, adapter, owner))
+            adapter.notifyDataSetChanged()
         }
 
         return thisView

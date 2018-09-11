@@ -33,11 +33,8 @@
         <activity android:name=".LoginActivity" />
         <activity
             android:name=".MainActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_main" />
-        <activity
-            android:name=".viewmodel.Main2Activity"
-            android:label="@string/title_activity_main2"
-            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>

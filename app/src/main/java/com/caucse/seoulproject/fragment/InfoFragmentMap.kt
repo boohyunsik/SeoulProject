@@ -65,7 +65,8 @@ class InfoFragmentMap : NMapFragment(), NMapView.OnMapStateChangeListener {
                             val mapY = result.getString("mapy").toInt()
                             moveMapCenter(mapX, mapY)
                         },
-                        {error -> Log.d(TAG, "error -> " + error.message)},
+                        {error ->
+                            Log.d(TAG, "error -> " + error.message + ", 검색어 = $query")},
                         {Log.d(TAG, "검색어 = ${query}")}
                 )
         return view
