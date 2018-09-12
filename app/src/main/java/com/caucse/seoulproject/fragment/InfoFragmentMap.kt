@@ -69,6 +69,12 @@ class InfoFragmentMap : NMapFragment(), NMapView.OnMapStateChangeListener {
                             Log.d(TAG, "error -> " + error.message + ", 검색어 = $query")},
                         {Log.d(TAG, "검색어 = ${query}")}
                 )
+
+        val locationTextView = view.map_location
+        val telTextView = view.map_tel
+
+        locationTextView.text = cultureData!!.PLACE
+        telTextView.text = cultureData!!.INQUIRY
         return view
     }
 

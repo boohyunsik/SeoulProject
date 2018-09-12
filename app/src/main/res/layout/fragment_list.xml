@@ -11,10 +11,11 @@
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:textAlignment="center"
         android:padding="5dp"
-        android:text="이달의 문화행사"/>
+        android:gravity="center_vertical"
+        android:text="이 달의 문화행사" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/listview"

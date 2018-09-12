@@ -27,10 +27,6 @@ class CultureListAdapter(val view : RecyclerView
     private val icFavorite = R.drawable.ic_baseline_red_heart
     private val icNonFavorite = R.drawable.ic_baseline_black_heart
 
-    init {
-        Picasso.get().setIndicatorsEnabled(true)
-    }
-
     fun initData(e : List<CultureRow>) {
         data.clear()
         data.addAll(e)

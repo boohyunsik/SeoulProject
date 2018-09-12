@@ -40,6 +40,19 @@ class FavoriteFragment : Fragment() {
         recyclerView.layoutManager = linearLayoutManager
         adapter = FavoriteListAdapter(mainViewModel, recyclerView)
         recyclerView.adapter = adapter
+
+        val textView = view.favorite_textView
+        if (mainViewModel.isFavoriteEmpty()) {
+
+            val favoriteContainer = view.favorite_container
+            favoriteContainer.layoutParams.height = ViewGroup.LayoutParams.MATCH_PARENT
+            textView.layoutParams.height = ViewGroup.LayoutParams.MATCH_PARENT
+            recyclerView.layoutParams.height = 0
+            textView.text = "즐겨찾기 한 문화정보가 없습니다."
+        } else {
+            textView.layoutParams.height = 0
+        }
+
         return view
     }
 

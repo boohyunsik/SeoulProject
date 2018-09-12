@@ -45,10 +45,6 @@ class MainViewModel : ViewModel() {
         favoriteKeyList.value = ArrayList()
     }
 
-    fun isInit() : Boolean {
-        return concertData.value != null
-    }
-
     fun addRecentData(row: CultureRow) {
         recentData.forEach {
             if (it.CULTCODE == row.CULTCODE) {
@@ -87,40 +83,6 @@ class MainViewModel : ViewModel() {
         return ret
     }
 
-    fun getIsFavorited(context : Context, cultureCode : String) : Single<Favorite> {
-        Log.d(TAG, "getIsFavorited()")
-        return DatabaseHelper
-                .getInstance(context)!!
-                .getFavoriteDao()
-                .load(userid, cultureCode)
-    }
-
-    fun setFavorite(context: Context, data: CultureRow) {
-        setFavorite(context, data.CULTCODE)
-    }
-
-    fun setFavorite(context: Context, cultureCode: String) {
-        val favorite: Favorite = Favorite()
-        favorite.cultureCode = cultureCode
-        favorite.userId = userid
-        Log.d(TAG, "insert to db : cultcode=${cultureCode}, userid=${userid}")
-        async {
-            DatabaseHelper
-                    .getInstance(context)!!
-                    .getFavoriteDao()
-                    .insert(favorite)
-        }
-    }
-
-    fun delFavorite(context: Context, cultureCode: String) {
-        async {
-            DatabaseHelper
-                    .getInstance(context)!!
-                    .getFavoriteDao()
-                    .delete(userid, cultureCode)
-        }
-    }
-
     fun addFavoriteData(row: CultureRow) {
         favoriteData.value!!.put(row.CULTCODE, row)
         favoriteKeyList.value!!.add(row.CULTCODE)
@@ -133,6 +95,10 @@ class MainViewModel : ViewModel() {
                 favoriteKeyList.value!!.remove(it)
             }
         }
+    }
+
+    fun isFavoriteEmpty(): Boolean {
+        return favoriteData.value!!.size == 0
     }
 
     fun printFavoriteData() {

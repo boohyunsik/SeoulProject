@@ -17,11 +17,12 @@ import java.net.URL
 
 class LoginActivity : AppCompatActivity() {
 
+    private val TAG = this::class.java.simpleName
     private val OAUTH_CLIENT_ID = "ILMvRUaQNzCAYsTvxb59"
     private val OAUTH_CLIENT_SECRET = "tNuAP0CtD5"
     private val OAUTH_CLIENT_NAME = "Culin"
     private lateinit var mOAuthLoginInstance: OAuthLogin
-    private var loginOK: Boolean = false;
+    private var loginOK: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,7 +45,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     fun startCulin(){
-        var thread = Thread(Runnable() {
+        Thread {
             val token = mOAuthLoginInstance.getAccessToken(this)// 네아로 접근 토큰 값";
             val header = "Bearer $token" // Bearer 다음에 공백 추가
 
@@ -54,7 +55,7 @@ class LoginActivity : AppCompatActivity() {
                 var con = url.openConnection() as HttpURLConnection
                 con.requestMethod = "GET"
                 con.setRequestProperty("Authorization",header)
-                Log.d("RP",con.getRequestProperty("Authorization"))
+                Log.d(TAG,con.getRequestProperty("Authorization"))
                 var responseCode = con.responseCode
                 var br: BufferedReader?
                 if (responseCode == 200) { // 정상 호출
@@ -62,16 +63,12 @@ class LoginActivity : AppCompatActivity() {
                 } else {  // 에러 발생
                     br = BufferedReader(InputStreamReader(con.errorStream))
                 }
-                Log.d("responseCode",responseCode.toString())
-                Log.d("처음", br.readLine())
-
+                Log.d(TAG , "response code = $responseCode")
+                Log.d(TAG, "first = ${br.readLine()}")
             } catch (e: Exception) {
-                Log.d("error!",e.toString())
+                Log.d(TAG, "error = ${e.message}")
             }
-        })
-        thread.start()
-
-
+        }.start()
         var intent = Intent(this, MainActivity::class.java)
         // TODO : 이런식으로 intent.putExtra(key, value) 식으로 로그인 정보 전달
         intent.putExtra("userName", "부현식")
