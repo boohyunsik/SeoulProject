@@ -7,6 +7,8 @@ import com.nhn.android.naverlogin.OAuthLogin
 import com.nhn.android.naverlogin.OAuthLoginHandler
 import kotlinx.android.synthetic.main.activity_login.*
 import android.util.Log
+import com.google.gson.JsonObject
+import com.google.gson.JsonParser
 import com.nhn.android.naverlogin.data.OAuthLoginState
 import java.io.BufferedReader
 import java.io.InputStreamReader
@@ -22,24 +24,23 @@ class LoginActivity : AppCompatActivity() {
     private val OAUTH_CLIENT_SECRET = "tNuAP0CtD5"
     private val OAUTH_CLIENT_NAME = "Culin"
     private lateinit var mOAuthLoginInstance: OAuthLogin
-    private var loginOK: Boolean = false
+    private lateinit var jsonParser: JsonParser
+    private lateinit var jsonObject : JsonObject
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
-        initData()
     }
 
     override fun onResume() {
         super.onResume()
-
+        initData()
         if(mOAuthLoginInstance.getState(this)==OAuthLoginState.OK) {
             Log.d("초기 로그인상태",mOAuthLoginInstance.getState(this@LoginActivity).toString())
             startCulin()
         }
-        else{
-            Log.d("초기 로그인상태",mOAuthLoginInstance.getState(this@LoginActivity).toString())
-        }
+
         var loginButton = this.naverLogin
             loginButton.setOAuthLoginHandler(mOAuthLoginHandler)
     }
@@ -64,15 +65,30 @@ class LoginActivity : AppCompatActivity() {
                     br = BufferedReader(InputStreamReader(con.errorStream))
                 }
                 Log.d(TAG , "response code = $responseCode")
-                Log.d(TAG, "first = ${br.readLine()}")
+
+                jsonParser = JsonParser()
+                var responseObject: JsonObject = jsonParser.parse(br.readLine()) as JsonObject
+                jsonObject = responseObject.get("response") as JsonObject
+
+                Log.d(TAG , "response = ${jsonObject}")
+                Log.d(TAG , "id = ${jsonObject.get("id")}")
+                Log.d(TAG , "nickname = ${jsonObject.get("nickname")}")
+                Log.d(TAG, "profile_image = ${jsonObject.get("profile_image")}")
+                Log.d(TAG , "age = ${jsonObject.get("age")}")
+                Log.d(TAG , "gender = ${jsonObject.get("gender")}")
+                Log.d(TAG , "email = ${jsonObject.get("email")}")
+                Log.d(TAG , "name = ${jsonObject.get("name")}")
+                Log.d(TAG , "birthday = ${jsonObject.get("birthday")}")
+
             } catch (e: Exception) {
                 Log.d(TAG, "error = ${e.message}")
             }
+
         }.start()
+
+
         var intent = Intent(this, MainActivity::class.java)
         // TODO : 이런식으로 intent.putExtra(key, value) 식으로 로그인 정보 전달
-        intent.putExtra("userName", "부현식")
-        intent.putExtra("userEmail", "bhs9194@nate.com")
 
         startActivity(intent)
         finish()
