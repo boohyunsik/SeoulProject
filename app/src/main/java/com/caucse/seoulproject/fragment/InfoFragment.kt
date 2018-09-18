@@ -4,6 +4,7 @@ import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.net.Uri
 import android.os.Bundle
+import android.support.design.widget.TabLayout
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.view.PagerAdapter
@@ -42,6 +43,7 @@ class InfoFragment : NMapFragment() {
     private lateinit var mainViewModel: MainViewModel
     private lateinit var pager : ViewPager
     private lateinit var adapter: InfoPagerAdapter
+    private lateinit var tab : TabLayout
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,7 +53,9 @@ class InfoFragment : NMapFragment() {
                               savedInstanceState: Bundle?): View? {
         Log.d(TAG, "onCreateView()")
         var view: View = inflater.inflate(R.layout.fragment_info, container, false)
+        tab = view.findViewById(R.id.infoTap)
         pager = view.pager
+        tab.setupWithViewPager(pager)
         adapter = InfoPagerAdapter(activity!!.supportFragmentManager)
         pager.adapter = adapter
         pager.currentItem = 0
