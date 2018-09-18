@@ -10,12 +10,6 @@
     android:orientation="vertical"
     tools:context=".fragment.InfoFragmentInfo">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:textAlignment="center"
-        android:gravity="center_vertical"
-        android:text="문화 정보"/>
 
     <ScrollView
         android:id="@+id/scrollView2"

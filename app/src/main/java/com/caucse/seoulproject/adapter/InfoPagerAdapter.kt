@@ -30,4 +30,13 @@ class InfoPagerAdapter(fm : FragmentManager) : FragmentStatePagerAdapter(fm){
     override fun getCount(): Int {
        return 3
     }
+
+    override fun getPageTitle(position: Int): CharSequence? {
+        return when (position){
+            0 -> "문화 정보"
+            1 -> "위치 정보"
+            2 -> "리뷰"
+            else -> null
+        }
+    }
 }

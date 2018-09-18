@@ -6,7 +6,6 @@
     android:orientation="vertical"
     tools:context=".fragment.FavoriteFragment">
 
-    <!-- TODO: Update blank fragment layout -->
     <TextView
         android:layout_width="match_parent"
         android:layout_height="50dp"
@@ -19,7 +18,7 @@
         android:id="@+id/favorite_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/border"
+        android:background="@drawable/border_favorite"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginBottom="60dp"
