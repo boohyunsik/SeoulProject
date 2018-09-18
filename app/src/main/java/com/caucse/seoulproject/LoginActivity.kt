@@ -7,8 +7,11 @@ import com.nhn.android.naverlogin.OAuthLogin
 import com.nhn.android.naverlogin.OAuthLoginHandler
 import kotlinx.android.synthetic.main.activity_login.*
 import android.util.Log
+import android.widget.Toast
+import com.google.firebase.auth.FirebaseAuth
 import com.google.gson.JsonObject
 import com.google.gson.JsonParser
+import com.nhn.android.naverlogin.OAuthLogin.mOAuthLoginHandler
 import com.nhn.android.naverlogin.data.OAuthLoginState
 import java.io.BufferedReader
 import java.io.InputStreamReader
@@ -70,6 +73,16 @@ class LoginActivity : AppCompatActivity() {
                 var responseObject: JsonObject = jsonParser.parse(br.readLine()) as JsonObject
                 jsonObject = responseObject.get("response") as JsonObject
 
+                /*FirebaseAuth.getInstance().createUserWithEmailAndPassword(jsonObject.get("id").toString(), "0000".toString())
+                                .addOnCompleteListener { task->
+                                    if(task.isSuccessful){
+                                        Toast.makeText(this,"Added Firebase",Toast.LENGTH_LONG).show()
+                                    }else{
+                                        Toast.makeText(this,"Already exists",Toast.LENGTH_LONG).show()
+                                    }
+                                }*/
+
+
                 Log.d(TAG , "response = ${jsonObject}")
                 Log.d(TAG , "id = ${jsonObject.get("id")}")
                 Log.d(TAG , "nickname = ${jsonObject.get("nickname")}")
@@ -98,6 +111,8 @@ class LoginActivity : AppCompatActivity() {
         mOAuthLoginInstance = OAuthLogin.getInstance()
         mOAuthLoginInstance.init(this,OAUTH_CLIENT_ID,OAUTH_CLIENT_SECRET,OAUTH_CLIENT_NAME)
     }
+
+
 
     private val mOAuthLoginHandler = object : OAuthLoginHandler() {
         override fun run(success: Boolean) {
