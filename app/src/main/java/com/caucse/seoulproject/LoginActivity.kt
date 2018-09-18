@@ -72,15 +72,17 @@ class LoginActivity : AppCompatActivity() {
                 jsonParser = JsonParser()
                 var responseObject: JsonObject = jsonParser.parse(br.readLine()) as JsonObject
                 jsonObject = responseObject.get("response") as JsonObject
+                var email : String
+                email = jsonObject.get("email").toString().substring(1,jsonObject.get("email").toString().length-1)
 
-                /*FirebaseAuth.getInstance().createUserWithEmailAndPassword(jsonObject.get("id").toString(), "0000".toString())
+                FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, "asdfasdf")
                                 .addOnCompleteListener { task->
                                     if(task.isSuccessful){
                                         Toast.makeText(this,"Added Firebase",Toast.LENGTH_LONG).show()
                                     }else{
-                                        Toast.makeText(this,"Already exists",Toast.LENGTH_LONG).show()
+                                        Toast.makeText(this,task.exception.toString(),Toast.LENGTH_LONG).show()
                                     }
-                                }*/
+                                }
 
 
                 Log.d(TAG , "response = ${jsonObject}")
