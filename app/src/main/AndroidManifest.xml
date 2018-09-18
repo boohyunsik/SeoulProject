@@ -29,6 +29,9 @@
         <meta-data
             android:name="com.kakao.sdk.AppKey"
             android:value="1502671631cd1b907465e2cbb2f630e4" />
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyApNj7sxJYQ6tySbDlleujzEdWVkLl1tP0" />
 
         <activity android:name=".LoginActivity" />
         <activity

@@ -7,23 +7,23 @@
     android:paddingLeft="10dp"
     android:paddingRight="10dp"
     android:paddingBottom="50dp"
+    android:name="com.google.android.gms.maps.SupportMapFragment"
     tools:context=".fragment.InfoFragmentMap">
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-
-            <com.nhn.android.maps.NMapView
-                android:id="@+id/naver_mapView"
+            <com.google.android.gms.maps.MapView
+                android:id="@+id/mapView"
                 android:layout_width="match_parent"
-                android:layout_height="500dp"
-                android:paddingTop="30dp"
-                android:focusable="true"/>
+                android:layout_height="500dp">
+            </com.google.android.gms.maps.MapView>
 
             <TextView
                 android:layout_width="wrap_content"
