@@ -7,6 +7,7 @@ import android.content.Context
 import android.support.v4.app.FragmentManager
 import android.support.v7.widget.RecyclerView
 import android.util.Log
+import com.caucse.seoulproject.MainActivity
 import com.caucse.seoulproject.adapter.CultureListAdapter
 import com.caucse.seoulproject.data.CultureRow
 import com.caucse.seoulproject.helper.CultureApiHelper
@@ -27,23 +28,23 @@ class MainViewModel : ViewModel() {
     val TAG = "MainViewModel"
 
     private val cultureApiHelper by lazy { CultureApiHelper() }
-    private lateinit var userid: String
-    private lateinit var username: String
-    private lateinit var userEmail: String
-    private lateinit var userAge: String
+    private lateinit var title : String
+    private lateinit var myInfo : String
 
     private var concertData: MutableLiveData<ArrayList<CultureRow>> = MutableLiveData()
     private val recentData: ArrayList<CultureRow> = ArrayList()
+
     val favoriteData : MutableLiveData<HashMap<String, CultureRow>> = MutableLiveData()
     val favoriteKeyList = MutableLiveData<ArrayList<String>>()
     lateinit var fragmentManager: FragmentManager
 
     var curConcert : CultureRow? = null
     init {
-        userid = "boohyunsik"
+        //userid = "boohyunsik"
         favoriteData.value = HashMap()
         favoriteKeyList.value = ArrayList()
     }
+
 
     fun addRecentData(row: CultureRow) {
         recentData.forEach {
@@ -83,6 +84,7 @@ class MainViewModel : ViewModel() {
         return ret
     }
 
+
     fun addFavoriteData(row: CultureRow) {
         favoriteData.value!!.put(row.CULTCODE, row)
         favoriteKeyList.value!!.add(row.CULTCODE)
@@ -104,5 +106,23 @@ class MainViewModel : ViewModel() {
     fun printFavoriteData() {
         Log.d(TAG, "favorite hash map data size = ${favoriteData.value!!.size}")
         Log.d(TAG, "favorite key data size = ${favoriteKeyList.value!!.size}")
+    }
+    fun setMyInfo(myinfo: String){
+        myInfo = myinfo
+    }
+
+    fun getMyInfo() : List<String>{
+        myInfo = myInfo.replace("\"","")
+        myInfo = myInfo.replace("{","")
+        myInfo = myInfo.replace(" ","")
+        val myName = myInfo.split(":|,".toRegex())
+        return myName
+    }
+
+    fun setTitle(cultureTitle : String){
+        title = cultureTitle
+    }
+    fun getTitle() : String{
+        return title
     }
 }

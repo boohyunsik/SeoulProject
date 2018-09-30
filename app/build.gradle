@@ -37,12 +37,12 @@ dependencies {
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlin_coroutine_version"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$kotlin_coroutine_version"
 
-    implementation 'com.android.support:appcompat-v7:27.1.1'
-    implementation 'com.android.support:support-core-utils:27.1.1'
-    implementation 'com.android.support:customtabs:27.1.1'
-    implementation 'com.android.support:support-v4:27.1.1'
-    implementation 'com.android.support:cardview-v7:27.1.1'
-    implementation 'com.android.support:design:27.1.1'
+    implementation 'com.android.support:appcompat-v7:27.1.0'
+    implementation 'com.android.support:support-core-utils:27.1.0'
+    implementation 'com.android.support:customtabs:27.1.0'
+    implementation 'com.android.support:support-v4:27.1.0'
+    implementation 'com.android.support:cardview-v7:27.1.0'
+    implementation 'com.android.support:design:27.1.0'
 
     implementation 'com.android.support.constraint:constraint-layout:1.1.2'
 
@@ -52,6 +52,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-core:16.0.1'
     implementation 'com.google.firebase:firebase-auth:16.0.1'
     implementation 'com.google.firebase:firebase-database:16.0.1'
+    implementation 'com.google.firebase:firebase-firestore:17.0.1'
     kapt "android.arch.persistence.room:compiler:1.1.1"
     implementation 'android.arch.persistence.room:rxjava2:1.1.1'
     implementation 'com.squareup.retrofit2:retrofit:2.3.0'

@@ -17,6 +17,7 @@ import com.caucse.seoulproject.R
 import com.caucse.seoulproject.data.CultureRow
 import com.caucse.seoulproject.utils.ImageUtil
 import com.caucse.seoulproject.viewmodel.MainViewModel
+import kotlinx.android.synthetic.main.list_item.*
 
 class InfoFragmentInfo : Fragment() {
     private val TAG = this::class.java.simpleName
@@ -33,6 +34,7 @@ class InfoFragmentInfo : Fragment() {
         var infoContent = cultureData!!.CONTENTS
         var imageView: ImageView = view.findViewById(R.id.infoImageView)
         val myWebView = view.findViewById(R.id.infoWebView) as WebView
+        mainViewModel.setTitle(titleContent)
 
         titleView.setText(titleContent)
         Log.d("title",titleContent)
@@ -60,6 +62,9 @@ class InfoFragmentInfo : Fragment() {
 
     interface OnFragmentInteractionListener {
         fun onFragmentInteraction(uri: Uri)
+    }
+    fun getTitle() : String{
+        return cultureData!!.TITLE
     }
 
     companion object {

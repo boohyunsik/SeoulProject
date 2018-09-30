@@ -26,9 +26,10 @@ class LoginActivity : AppCompatActivity() {
     private val OAUTH_CLIENT_ID = "ILMvRUaQNzCAYsTvxb59"
     private val OAUTH_CLIENT_SECRET = "tNuAP0CtD5"
     private val OAUTH_CLIENT_NAME = "Culin"
+    private var loginInfo = ""
     private lateinit var mOAuthLoginInstance: OAuthLogin
     private lateinit var jsonParser: JsonParser
-    private lateinit var jsonObject : JsonObject
+    private lateinit var  jsonObject : JsonObject
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -74,16 +75,32 @@ class LoginActivity : AppCompatActivity() {
                 jsonObject = responseObject.get("response") as JsonObject
                 var email : String
                 email = jsonObject.get("email").toString().substring(1,jsonObject.get("email").toString().length-1)
+                loginInfo = jsonObject.toString()
+
+                var intent = Intent(this, MainActivity::class.java)
+                intent.putExtra("LoginInfo",loginInfo)
+                // TODO : 이런식으로 intent.putExtra(key, value) 식으로 로그인 정보 전달
+                Log.d(TAG, "logininfo = ${loginInfo}")
 
                 FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, "asdfasdf")
                                 .addOnCompleteListener { task->
                                     if(task.isSuccessful){
-                                        Toast.makeText(this,"Added Firebase",Toast.LENGTH_LONG).show()
-                                    }else{
-                                        Toast.makeText(this,task.exception.toString(),Toast.LENGTH_LONG).show()
-                                    }
+                                        Toast.makeText(this,"회원가입 되었습니다",Toast.LENGTH_LONG).show()
+                                                                            }
+                                    else{
+                                        //Toast.makeText(this,task.exception.toString(),Toast.LENGTH_LONG).show()
+                                                                          }
                                 }
 
+                FirebaseAuth.getInstance().signInWithEmailAndPassword(email,"asdfasdf")
+                        .addOnCompleteListener { task->
+                            if(task.isSuccessful){
+                                Toast.makeText(this,"로그인에 성공하였습니다", Toast.LENGTH_LONG).show()
+                            }else{
+                                Toast.makeText(this,task.exception.toString(), Toast.LENGTH_LONG).show()
+                            }
+                        }
+                startActivity(intent)
 
                 Log.d(TAG , "response = ${jsonObject}")
                 Log.d(TAG , "id = ${jsonObject.get("id")}")
@@ -95,18 +112,14 @@ class LoginActivity : AppCompatActivity() {
                 Log.d(TAG , "name = ${jsonObject.get("name")}")
                 Log.d(TAG , "birthday = ${jsonObject.get("birthday")}")
 
+
             } catch (e: Exception) {
                 Log.d(TAG, "error = ${e.message}")
             }
-
+            finish()
         }.start()
 
-
-        var intent = Intent(this, MainActivity::class.java)
-        // TODO : 이런식으로 intent.putExtra(key, value) 식으로 로그인 정보 전달
-
-        startActivity(intent)
-        finish()
+       //finish()
     }
 
     fun initData(){

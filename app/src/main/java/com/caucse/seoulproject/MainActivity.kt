@@ -3,6 +3,7 @@ package com.caucse.seoulproject
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProvider
 import android.arch.lifecycle.ViewModelProviders
+import android.content.Intent
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.os.Bundle
@@ -25,6 +26,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var frameLayout : FrameLayout
     lateinit var active : Fragment
     lateinit var fragmentManager : FragmentManager
+    lateinit var loginInfo : String
 
     lateinit var listfragment : CultureListFragment
     lateinit var favoriteFragment: FavoriteFragment
@@ -67,12 +69,21 @@ class MainActivity : AppCompatActivity() {
         false
     }
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        var intent = getIntent()
+        loginInfo = intent.getStringExtra("LoginInfo")
+        var bundle = Bundle()
+        bundle.putString("logininfo",loginInfo)
+
+
         setContentView(R.layout.activity_main)
 
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
         mainViewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
+        mainViewModel.setMyInfo(loginInfo)
         fragmentManager = supportFragmentManager
         mainViewModel.fragmentManager = fragmentManager
 
@@ -82,6 +93,7 @@ class MainActivity : AppCompatActivity() {
 
         setFragmentManager()
     }
+
 
     override fun onResume() {
         super.onResume()
